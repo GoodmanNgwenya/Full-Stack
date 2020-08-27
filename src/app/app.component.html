@@ -1,0 +1,63 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar bg-info">
+    <a class="navbar-brand" href="#">PROPERTY LISTING</a>
+    <div class="navbar-nav mr-auto">
+        <a class="nav-item nav-link" [routerLink]="['/home']"><span style="color:white">Home</span></a>
+        <a class="nav-item nav-link"><span style="color:white">Homes for Sale</span></a>
+        <a class="nav-item nav-link"><span style="color:white">Sell a house</span></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" *ngIf="!currentUser" [routerLink]="['/login']"><span style="color:white">Login</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"(click)="logout()" *ngIf="currentUser"><span style="color:white">Logout</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav>
+    <!-- <ul class="nav justify-content-center nav-light bg-light" *ngIf="!currentUser"></ul> -->
+    <ul class="nav justify-content-center nav-light bg-light">
+        <li class="nav-item">
+            <a class="nav-link">My Adverts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">My Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Buy a House</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Sell a house</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Manage my Account</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">My Seller Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Favourite Houses</a>
+        </li>
+   
+    </ul>
+</nav>
+
+<!-- main app container -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- credits -->
+<!-- <div class="text-center mt-4">
+    <p>
+        <a href="https://jasonwatmore.com/post/2020/04/19/angular-9-jwt-authentication-example-tutorial"
+            target="_top">Angular 9 - JWT Authentication Example & Tutorial</a>
+    </p>
+    <p>
+        <a href="https://jasonwatmore.com" target="_top">JasonWatmore.com</a>
+    </p>
+</div> -->
