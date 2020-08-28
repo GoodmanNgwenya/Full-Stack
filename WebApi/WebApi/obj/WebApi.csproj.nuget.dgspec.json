@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Bitcube Internship\\Full Stack\\WebApi\\WebApi\\WebApi.csproj": {}
+    "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "E:\\Bitcube Internship\\Full Stack\\WebApi\\WebApi\\WebApi.csproj": {
+    "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Bitcube Internship\\Full Stack\\WebApi\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "E:\\Bitcube Internship\\Full Stack\\WebApi\\WebApi\\WebApi.csproj",
+        "projectPath": "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\WebApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\Goodman Ngwenya\\.nuget\\packages\\",
-        "outputPath": "E:\\Bitcube Internship\\Full Stack\\WebApi\\WebApi\\obj\\",
+        "outputPath": "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -47,6 +47,16 @@
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[3.1.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

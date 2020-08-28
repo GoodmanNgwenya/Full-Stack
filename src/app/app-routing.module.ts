@@ -5,6 +5,7 @@ import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { AuthGuard } from './_helpers';
 import { AdvertComponent } from './pages/advert.component';
+import { RegisterComponent } from './register';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
     { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent },
+    { path: 'register', component:RegisterComponent},
     { path: '', redirectTo: 'home', pathMatch: 'full' }
 
     // otherwise redirect to home

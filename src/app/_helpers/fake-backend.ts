@@ -23,12 +23,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate();
+                case url.endsWith('/users/register') && method === 'POST':
+                    return register();
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
+                    case url.match(/\/users\/\d+$/) && method === 'GET':
+                        return getUserById();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
-            }    
+            }
         }
 
         // route functions
@@ -46,9 +50,29 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             })
         }
 
+        function register() {
+            const user = body
+
+            if (users.find(x => x.username === user.username)) {
+                return error('Username "' + user.username + '" is already taken')
+            }
+
+            user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+            users.push(user);
+            localStorage.setItem('users', JSON.stringify(users));
+            return ok();
+        }
+
         function getUsers() {
             if (!isLoggedIn()) return unauthorized();
             return ok(users);
+        }
+
+        function getUserById() {
+            if (!isLoggedIn()) return unauthorized();
+
+            const user = users.find(x => x.id == idFromUrl());
+            return ok(user);
         }
 
         // helper functions
@@ -67,6 +91,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function isLoggedIn() {
             return headers.get('Authorization') === 'Bearer fake-jwt-token';
+        }
+        function idFromUrl() {
+            const urlParts = url.split('/');
+            return parseInt(urlParts[urlParts.length - 1]);
         }
     }
 }
