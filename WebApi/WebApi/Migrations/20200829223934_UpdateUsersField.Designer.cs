@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.DbContexts;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(PropertyListingContext))]
-    partial class PropertyListingContextModelSnapshot : ModelSnapshot
+    [Migration("20200829223934_UpdateUsersField")]
+    partial class UpdateUsersField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

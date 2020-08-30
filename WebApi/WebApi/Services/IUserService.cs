@@ -9,6 +9,6 @@ namespace WebApi.Services
     AuthenticateResponse Authenticate(AuthenticateRequest model);
     IEnumerable<User> GetAll();
     User GetById(int id);
-    User CreateUser(User user);
+    User CreateUser(User user,string password);
   }
 }

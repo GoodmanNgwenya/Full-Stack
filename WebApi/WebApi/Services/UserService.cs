@@ -34,17 +34,26 @@ namespace WebApi.Services
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model)
     {
+      if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
+        return null;
+
       //var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
-      var user = _context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+      //var user = _context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+      var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
 
       // return null if user not found
       if (user == null) return null;
+
+      // check if password is correct
+      if (!VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
+        return null;
 
       // authentication successful so generate jwt token
       var token = generateJwtToken(user);
 
       return new AuthenticateResponse(user, token);
     }
+
 
     public IEnumerable<User> GetAll()
     {
@@ -53,24 +62,34 @@ namespace WebApi.Services
     }
 
     //retgister User
-    public User CreateUser(User user)
+    public User CreateUser(User user,string password)
     {
+      // validation
+      if (string.IsNullOrWhiteSpace(password))
+        throw new AppException("Password is required");
+
+      if (_context.Users.Any(x => x.Username == user.Username))
+        throw new AppException("Username \"" + user.Username + "\" is already taken");
+
+      byte[] passwordHash, passwordSalt;
+      CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+      user.PasswordHash = passwordHash;
+      user.PasswordSalt = passwordSalt;
+
       _context.Users.Add(user);
       _context.SaveChanges();
 
       return user;
     }
 
+   
     public User GetById(int id)
     {
       // return _users.FirstOrDefault(x => x.Id == id);
       return _context.Users.FirstOrDefault(x => x.Id == id);
     }
 
-    public bool Save()
-    {
-      return (_context.SaveChanges() >= 0);
-    }
 
     // helper methods
 
@@ -88,5 +107,38 @@ namespace WebApi.Services
       var token = tokenHandler.CreateToken(tokenDescriptor);
       return tokenHandler.WriteToken(token);
     }
+
+    private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+    {
+      if (password == null) throw new ArgumentNullException("password");
+      if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+      using (var hmac = new System.Security.Cryptography.HMACSHA512())
+      {
+        passwordSalt = hmac.Key;
+        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+      }
+    }
+
+
+    private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    {
+      if (password == null) throw new ArgumentNullException("password");
+      if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+      if (passwordHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+      if (passwordSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+
+      using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+      {
+        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        for (int i = 0; i < computedHash.Length; i++)
+        {
+          if (computedHash[i] != passwordHash[i]) return false;
+        }
+      }
+
+      return true;
+    }
+
   }
 }

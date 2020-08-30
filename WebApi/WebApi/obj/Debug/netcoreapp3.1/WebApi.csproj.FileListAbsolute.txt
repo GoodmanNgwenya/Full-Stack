@@ -74,5 +74,7 @@ E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcor
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\AutoMapper.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CoreCompileInputs.cache
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.MvcApplicationPartsAssemblyInfo.cache

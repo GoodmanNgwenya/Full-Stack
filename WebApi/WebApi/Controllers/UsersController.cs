@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Entities;
 using WebApi.Models;
@@ -13,9 +15,12 @@ namespace WebApi.Controllers
   public class UsersController : ControllerBase
   {
     private IUserService _userService;
-    public UsersController(IUserService userService)
+    private  IMapper _mapper;
+
+    public UsersController(IUserService userService, IMapper mapper)
     {
       _userService = userService;
+      _mapper = mapper;
     }
 
     [HttpPost("authenticate")]
@@ -33,24 +38,28 @@ namespace WebApi.Controllers
     [HttpGet]
     public IActionResult GetAll()
     {
+
       var users = _userService.GetAll();
-      return Ok(users);
+      var model = _mapper.Map<IList<UserModel>>(users);
+      return Ok(model);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
       var user = _userService.GetById(id);
-      return Ok(user);
+      var model = _mapper.Map<UserModel>(user);
+      return Ok(model);
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] User user)
+    public IActionResult Register([FromBody] RegisterDto model)
     {
+      var user = _mapper.Map<User>(model);
       try
       {
         // create user
-        _userService.CreateUser(user);
+        _userService.CreateUser(user,model.Password);
         return Ok();
       }
       catch (Exception ex)
