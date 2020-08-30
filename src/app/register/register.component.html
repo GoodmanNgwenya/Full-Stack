@@ -10,7 +10,7 @@
                 [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
               <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                 <div *ngIf="f.firstName.errors.required">First Name is required</div>
-                <div *ngIf="f.lastName.errors.pattern">Blank space not required</div>
+                <div *ngIf="f.firstName.errors.pattern">Blank space not required</div>
               </div>
             </div>
             <div class="col">
@@ -28,7 +28,7 @@
                 [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
               <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                 <div *ngIf="f.username.errors.required">Email is required</div>
-                <div *ngIf="f.username.errors?.pattern">This is not a valid Email!!!</div>
+                <div *ngIf="f.username.errors.email">This is not a valid email address make sure it contains the @ sign</div>
               </div>
             </div>
           </div>
