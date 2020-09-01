@@ -20,14 +20,16 @@
             <li class="nav-item">
                 <a class="nav-link" (click)="logout()" *ngIf="currentUser"><span style="color:white">LOGOUT</span></a>
             </li>
+           
         </ul>
+        
     </div>
 </nav>
-<nav>
+<nav *ngIf="currentUser">
     <!-- <ul class="nav justify-content-center nav-light bg-light" *ngIf="!currentUser"></ul> -->
-    <ul class="nav justify-content-center nav-light bg-light">
+    <ul class="nav justify-content-center nav-light bg-light" *ngIf="currentUser.role==='User'">
         <li class="nav-item">
-            <a class="nav-link">My Adverts</a>
+            <a class="nav-link" [routerLink]="['/advert']">My Adverts</a>
         </li>
         <li class="nav-item">
             <a class="nav-link">My Profile</a>
@@ -47,9 +49,18 @@
         <li class="nav-item">
             <a class="nav-link">Favourite Houses</a>
         </li>
-        
+
+    </ul>
+    <ul class="nav justify-content-center nav-light bg-light" *ngIf="currentUser.role==='Admin'">
+        <li class="nav-item">
+            <a class="nav-link">User Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Advert Management</a>
+        </li>
     </ul>
 </nav>
+
 
 <!-- main app container -->
 <div class="container">

@@ -3,7 +3,7 @@
     <div class="card-body">
         <h6>Users from secure api end point</h6>
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-        <ul *ngIf="users">
+        <ul<li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li> *ngIf="users">
             <li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li>
         </ul>
     </div>
@@ -32,11 +32,11 @@
 </div> -->
 
 <!-- Filter Search Section Begin -->
-<div>
+<div class="seachContainer">
     <div class="row">
         <div class="col-lg-12">
             <div class="filter-form">
-                <div class="input-group col-md">
+                <div class="input-group col-md-4">
                     <input class="form-control py-2 " type="search" placeholder="Search..." >
                     <span class="input-group-append">
                       <button class="btn btn-outline-primary  border-left-0 border" type="button">
@@ -177,7 +177,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>
@@ -227,7 +227,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>
@@ -277,7 +277,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>
@@ -327,7 +327,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>
@@ -377,7 +377,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>
@@ -427,7 +427,7 @@
                         </div>
                         <div class="room-price">
                             <p>For Sale</p>
-                            <span>R345,000</span>
+                            <span>R1 345,000</span>
                         </div>
                         <a href="#" class="site-btn btn-line">View Property</a>
                     </div>

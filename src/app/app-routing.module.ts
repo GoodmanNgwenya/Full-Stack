@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { AuthGuard } from './_helpers';
-import { AdvertComponent } from './pages/advert.component';
+import { AdvertComponent } from './pages/advert/advert.component';
 import { RegisterComponent } from './register';
 
 

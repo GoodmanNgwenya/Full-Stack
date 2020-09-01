@@ -8,9 +8,8 @@ namespace WebApi.Entities
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Username { get; set; }
-
-    /// [JsonIgnore]
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
+    public string Role { get; set; }
   }
 }
