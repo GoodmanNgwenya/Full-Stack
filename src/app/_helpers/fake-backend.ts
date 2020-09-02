@@ -4,9 +4,16 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 import { User } from '@app/_models';
+import { Advert } from '@app/_models/advert';
 
 const users: User[] = [{ id: 1, username: 'test@gmail.com', password: '12345678', firstName: 'Test', lastName: 'Test', role: 'User' },
-                       { id: 2, username: 'goodman@gmail.com', password: '12345678', firstName: 'Goodman', lastName: 'Ngwenya', role: 'Admin' }];
+{ id: 2, username: 'goodman@gmail.com', password: '12345678', firstName: 'Goodman', lastName: 'Ngwenya', role: 'Admin' }];
+
+let adverts: Advert[] =
+    [{ id: 1, advertHeadlineText: 'Testing one', province: 'Gauteng', city: 'Sandton', advertDetails: '', price: 18000000.05, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 },
+    { id: 2, advertHeadlineText: 'Testing two', province: 'Mpumalanga', city: 'Witbank', advertDetails: '', price: 355500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 },
+    { id: 3, advertHeadlineText: 'Testing Three', province: 'Limpopo', city: 'Polokwane', advertDetails: '', price: 374500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 }
+    ]
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -22,6 +29,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute() {
             switch (true) {
+                //users
                 case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate();
                 case url.endsWith('/users/register') && method === 'POST':
@@ -30,6 +38,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
+
+                //advert
+                case url.endsWith('/adverts/create') && method === 'POST':
+                    return createAdvert();
+                case url.endsWith('/adverts') && method === 'GET':
+                    return getAdverts();
+                case url.match(/\/adverts\/\d+$/) && method === 'GET':
+                    return getAdvertById();
+                case url.match(/\/adverts\/\d+$/) && method === 'PUT':
+                    return updateAdvert();
+                case url.match(/\/adverts\/\d+$/) && method === 'DELETE':
+                    return deleteAdvert();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -47,7 +67,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 username: user.username,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                role:user.role,
+                role: user.role,
                 token: 'fake-jwt-token'
             })
         }
@@ -76,6 +96,54 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const user = users.find(x => x.id == idFromUrl());
             return ok(user);
         }
+
+        /** 
+         * crud operation for advert details
+         */
+
+        //retrieve all advert
+        function getAdverts() {
+            if (!isLoggedIn()) return unauthorized();
+            return ok(adverts);
+        }
+
+        //retrieve advert by Id
+        function getAdvertById() {
+            if (!isLoggedIn()) return unauthorized();
+            const advert = adverts.find(x => x.id == idFromUrl());
+            return ok(advert);
+        }
+
+        //create advert
+        function createAdvert() {
+            const advert = body
+
+            advert.id = adverts.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+            adverts.push(advert);
+            localStorage.setItem('adverts', JSON.stringify(adverts));
+            return ok();
+        }
+
+        //update advert details
+        function updateAdvert() {
+            let params = body;
+            let advert = adverts.find(x => x.id === idFromUrl());
+
+            // update and save advert
+            Object.assign(advert, params);
+            localStorage.setItem('adverts', JSON.stringify(adverts));
+
+            return ok();
+        }
+
+        //delete advert
+        function deleteAdvert() {
+            adverts = adverts.filter(x => x.id !== idFromUrl());
+            localStorage.setItem('adverts', JSON.stringify(adverts));
+            return ok();
+        }
+
+
 
         // helper functions
 

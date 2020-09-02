@@ -1,5 +1,5 @@
+using Fullstack.Data.Entities;
 using System.Collections.Generic;
-using WebApi.Entities;
 using WebApi.Models;
 
 namespace WebApi.Services

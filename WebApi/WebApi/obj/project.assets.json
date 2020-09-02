@@ -1526,6 +1526,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Fullstack.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.0"
+        },
+        "compile": {
+          "bin/placeholder/Fullstack.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Fullstack.Data.dll": {}
+        }
       }
     }
   },
@@ -5776,11 +5789,17 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Fullstack.Data/1.0.0": {
+      "type": "project",
+      "path": "../Fullstack.Data/Fullstack.Data.csproj",
+      "msbuildProject": "../Fullstack.Data/Fullstack.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 8.0.1",
+      "Fullstack.Data >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.0",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.0",
@@ -5820,7 +5839,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\Fullstack.Data\\Fullstack.Data.csproj": {
+              "projectPath": "E:\\Bitcube Internship\\Full Stack\\Property-Listing\\WebApi\\Fullstack.Data\\Fullstack.Data.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

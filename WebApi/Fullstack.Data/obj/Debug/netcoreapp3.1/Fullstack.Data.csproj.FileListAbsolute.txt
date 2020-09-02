@@ -1,0 +1,9 @@
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\bin\Debug\netcoreapp3.1\Fullstack.Data.deps.json
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\bin\Debug\netcoreapp3.1\Fullstack.Data.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.csprojAssemblyReference.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.AssemblyInfoInputs.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.AssemblyInfo.cs
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\bin\Debug\netcoreapp3.1\Fullstack.Data.pdb
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.csproj.CoreCompileInputs.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\Fullstack.Data\obj\Debug\netcoreapp3.1\Fullstack.Data.pdb

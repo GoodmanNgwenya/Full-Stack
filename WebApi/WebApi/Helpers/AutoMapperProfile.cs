@@ -1,5 +1,5 @@
 using AutoMapper;
-using WebApi.Entities;
+using Fullstack.Data.Entities;
 using WebApi.Models;
 
 namespace WebApi.Helpers

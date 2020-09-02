@@ -1,6 +1,8 @@
-using System.Text.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace WebApi.Entities
+namespace Fullstack.Data.Entities
 {
   public class User
   {

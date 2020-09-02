@@ -78,3 +78,5 @@ E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcor
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CoreCompileInputs.cache
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.MvcApplicationPartsAssemblyInfo.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Fullstack.Data.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Fullstack.Data.pdb

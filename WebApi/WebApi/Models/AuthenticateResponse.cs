@@ -1,4 +1,6 @@
-using WebApi.Entities;
+
+
+using Fullstack.Data.Entities;
 
 namespace WebApi.Models
 {

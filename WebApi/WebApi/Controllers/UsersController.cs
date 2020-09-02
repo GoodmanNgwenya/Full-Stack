@@ -1,10 +1,10 @@
 using AutoMapper;
+using Fullstack.Data.Entities;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Entities;
 using WebApi.Models;
 using WebApi.Services;
 

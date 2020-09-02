@@ -11,6 +11,7 @@ import { User } from './_models';
 })
 export class AppComponent {
     currentUser: User;
+    show: boolean = false;
     
     constructor(
         private router: Router,
@@ -22,5 +23,7 @@ export class AppComponent {
     logout() {
         this.authenticationService.logout();
         this.router.navigate(['/home']);
+        this.show = false;
     }
+
 }

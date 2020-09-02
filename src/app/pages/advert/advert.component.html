@@ -1,32 +1,74 @@
-<div class="card mt-4">
-    <div class="text-center">
-        <h4 class="card-header">My Advert</h4>
+<div class="row">
+    <div class="col-md-4">
+        <button class="btn btn-primary mr-3" type="submit" [routerLink]="['/addItem']">
+            Add New Advert
+        </button>
     </div>
-    <div class="card-body">
-        <p>Welcome {{currentUser.firstName}}!</p>
+    <div class="col-md-6">
+        <br />
+        <br />
     </div>
-    <!-- <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    <div class="row" *ngIf='users && users.length'>
-        <div class="col-md-" *ngFor='let user of users'>
-            <p>{{user.firstName}} {{user.lastName}}</p>
-        </div>
-    </div> -->
-    <!-- <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Surname</th>
-                <th scope="col">Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of users">
-                <td>{{user.id}}</td>
-                <td> {{ user.firstName }}</td>
-                <td>{{user.lastName}}</td>
-                <td>{{user.username}}</td>
-            </tr>
-        </tbody>
-    </table> -->
 </div>
+<section class="hotel-rooms spad">
+    <div class="container">
+        <div class="row" *ngIf='adverts && adverts.length'>
+            <div class="col-lg-4 col-md-6" *ngFor='let advert of adverts'>
+                <div class="room-items">
+                    <div class="room-img set-bg" data-setbg="assets/images/1.jpg">
+                        <img src="assets/images/1.jpg" style="block-size: 100%;" alt="">
+                        <a href="#" class="room-content">
+                            <i class="flaticon-heart"></i>
+                        </a>
+                    </div>
+                    <div class="room-text">
+                        <div class="room-details">
+                            <div class="room-title">
+                                <h5>{{advert.advertHeadlineText}}</h5>
+                                <a href="#"><i class="flaticon-placeholder"></i>
+                                    <span>Province: {{advert.province}}</span></a>
+                                <a href="#"><i class="flaticon-placeholder"></i>
+                                    <span>City: {{advert.city}}</span></a>
+                                <!-- <a href="#" class="large-width"><i class="flaticon-cursor"></i> <span>Show on
+                            Map</span></a> -->
+                            </div>
+                        </div>
+                        <div class="room-features">
+                            <div class="room-info">
+                                <div class="size">
+                                    <p>Lot Size</p>
+                                    <img src="assets/images/size.png" alt="">
+                                    <i class="flaticon-bath"></i>
+                                    <span>2561 sqft</span>
+                                </div>
+                                <div class="beds">
+                                    <p>Beds</p>
+                                    <img src="assets/images/bed.png" alt="">
+                                    <span>9</span>
+                                </div>
+                                <div class="baths">
+                                    <p>Baths</p>
+                                    <img src="assets/images/bath.png" alt="">
+                                    <span>2</span>
+                                </div>
+                                <div class="garage">
+                                    <p>Garage</p>
+                                    <img src="assets/images/garage.png" alt="">
+                                    <span>1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="room-price">
+                            <p>For Sale</p>
+                            <span>{{advert.price|currency:'R':'symbol':'1.2-2'}}</span>
+                        </div>
+                        <p>
+                            <button class="btn btn-outline-primary btn-sm" style="float:right" >
+                                Edit
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
