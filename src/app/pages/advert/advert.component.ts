@@ -27,11 +27,21 @@ export class AdvertComponent implements OnInit {
     });
 
     //get all available advert
-    this.advertService.getAll().subscribe({
-      next: adverts => {
-        this.adverts = adverts;
-      }
-    })
+    // this.advertService.getAll().subscribe({
+    //   next: adverts => {
+    //     this.adverts = adverts;
+    //   }
+    // })
+
+     /** 
+     * Return all advert posted by a specific user 
+     */
+    this.advertService.getAdvertsById(this.currentUser.id)
+      .subscribe({
+        next: adverts => {
+          this.adverts = adverts;
+        }
+      })
 
   }
 }

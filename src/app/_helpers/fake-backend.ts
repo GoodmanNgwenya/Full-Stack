@@ -10,8 +10,8 @@ const users: User[] = [{ id: 1, username: 'test@gmail.com', password: '12345678'
 { id: 2, username: 'goodman@gmail.com', password: '12345678', firstName: 'Goodman', lastName: 'Ngwenya', role: 'Admin' }];
 
 let adverts: Advert[] =
-    [{ id: 1, advertHeadlineText: 'Testing one', province: 'Gauteng', city: 'Sandton', advertDetails: '', price: 18000000.05, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 },
-    { id: 2, advertHeadlineText: 'Testing two', province: 'Mpumalanga', city: 'Witbank', advertDetails: '', price: 355500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 },
+    [{ id: 1, advertHeadlineText: 'Testing one', province: 'Gauteng', city: 'Sandton', advertDetails: '', price: 18000000.05, releaseDate: '', imageUrl: '', advertStatus: '', userId: 1 },
+    { id: 2, advertHeadlineText: 'Testing two', province: 'Mpumalanga', city: 'Witbank', advertDetails: '', price: 355500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 1 },
     { id: 3, advertHeadlineText: 'Testing Three', province: 'Limpopo', city: 'Polokwane', advertDetails: '', price: 374500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 }
     ]
 
@@ -46,6 +46,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getAdverts();
                 case url.match(/\/adverts\/\d+$/) && method === 'GET':
                     return getAdvertById();
+                case url.endsWith('/adverts') && method === 'POST':
+                    return getAdvertsById();
                 case url.match(/\/adverts\/\d+$/) && method === 'PUT':
                     return updateAdvert();
                 case url.match(/\/adverts\/\d+$/) && method === 'DELETE':
@@ -111,6 +113,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function getAdvertById() {
             if (!isLoggedIn()) return unauthorized();
             const advert = adverts.find(x => x.id == idFromUrl());
+            return ok(advert);
+        }
+
+        //retrieve all advert posted by a specific user by ID
+        function getAdvertsById() {
+            const { userId } = body;
+
+            if (!isLoggedIn()) return unauthorized();
+            const advert = adverts.filter(x => x.userId === userId);
             return ok(advert);
         }
 

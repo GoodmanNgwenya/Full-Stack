@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-4">
-        <button class="btn btn-primary mr-3" type="submit" [routerLink]="['/addItem']">
+        <button class="btn btn-primary mr-3" type="submit" [routerLink]="['/editAdvert']">
             Add New Advert
         </button>
     </div>
@@ -61,14 +61,16 @@
                             <p>For Sale</p>
                             <span>{{advert.price|currency:'R':'symbol':'1.2-2'}}</span>
                         </div>
-                        <p>
-                            <button class="btn btn-outline-primary btn-sm" style="float:right" >
+                        <div>
+                            <button class="btn btn-outline-primary btn-sm" style="float:right"
+                                [routerLink]="['/editAdvert', advert.id, 'edit']">
                                 Edit
                             </button>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
