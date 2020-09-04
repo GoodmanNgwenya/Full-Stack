@@ -1,67 +1,72 @@
 <div class="card">
     <div class="card-header">
-        {{pageTitle}}
+        <h1 *ngIf="isAddMode">Add Advert</h1>
+        <h1 *ngIf="!isAddMode">Edit Advert</h1>
     </div>
-
     <div class="card-body">
-        <form novalidate (ngSubmit)="saveAdvert()" formGroup="advertForm">
+        <form [formGroup]="advertForm" (ngSubmit)="onSubmit()">
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="advertHeadlineTextId">Advert Name</label>
                 <div class="col-md-8">
                     <input class="form-control" id="advertHeadlineTextId" type="text" placeholder="Advert Name"
-                        formControlName="advertHeadlineText" />
+                        formControlName="advertHeadlineText"
+                        [ngClass]="{ 'is-invalid': submitted && f.advertHeadlineText.errors }" />
+                    <div *ngIf="submitted && f.advertHeadlineText.errors" class="invalid-feedback">
+                        <div *ngIf="f.advertHeadlineText.errors.required">Advert Headline Text is required</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="provinceId">Province</label>
                 <div class="col-md-8">
                     <input class="form-control" id="provinceId" type="text" placeholder="Province"
-                        formControlName="province" />
+                        formControlName="province" [ngClass]="{ 'is-invalid': submitted && f.province.errors }" />
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="cityId">City</label>
                 <div class="col-md-8">
-                    <input class="form-control" id="cityId" type="text" placeholder="City"
-                        formControlName="city" />
+                    <input class="form-control" id="cityId" type="text" placeholder="City" formControlName="city"
+                        [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="advertDetailsId">Advert Details</label>
                 <div class="col-md-8">
                     <textarea class="form-control" id="advertDetailsId" placeholder="Advert Details" rows=3
-                        formControlName="advertDetails"></textarea>
+                        formControlName="advertDetails"
+                        [ngClass]="{ 'is-invalid': submitted && f.advertDetails.errors }"></textarea>
                 </div>
             </div>
 
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="priceId">Price</label>
                 <div class="col-md-8">
-                    <input class="form-control" id="priceId" type="number" placeholder="Price"
-                        formControlName="price" />
+                    <input class="form-control" id="priceId" type="number" placeholder="Price" formControlName="price"
+                        [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
                 </div>
             </div>
 
             <div class="form-group row mb-2">
                 <div class="offset-md-2 col-md-4">
 
-                    <button class="btn btn-primary mr-3" style="width:80px;" type="submit"
-                        [title]="advertForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
-                        [disabled]="!advertForm.valid">
+                    <button class="btn btn-primary mr-3" style="width:80px;" type="submit" [disabled]="loading">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                         Save
                     </button>
                     <button class="btn btn-outline-secondary mr-3" style="width:80px;" type="button"
-                        title="Cancel your edits" routerLink="['/advert']">
+                        title="Cancel your edits" routerLink="/advert">
                         Cancel
                     </button>
 
                     <button class="btn btn-primary mr-3" style="width:80px;" type="button" title="Delete this advert"
                         (click)="deleteAdvert()">
                         Delete
-                    </button><br /><br />
-                    <button class="btn btn-primary mr-3" style="width:80px;" type="submit" routerLink="['/advert']">
-                        Back
                     </button>
+                    <!-- <br /><br />
+                   <button class="btn btn-primary mr-3" style="width:80px;" type="submit" routerLink="/advert">
+                        Back
+                    </button> -->
 
                 </div>
             </div>

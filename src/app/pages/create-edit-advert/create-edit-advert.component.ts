@@ -1,21 +1,23 @@
-import { Component,ViewChildren,OnDestroy, ElementRef } from '@angular/core';
-import { FormControlName, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Advert } from '@app/_models';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AdvertService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-create-edit-advert',
+  // selector: 'app-create-edit-advert',
   templateUrl: './create-edit-advert.component.html'
 })
-export class CreateEditAdvertComponent implements OnDestroy {
-  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+export class CreateEditAdvertComponent implements OnInit {
+
   advertForm: FormGroup;
-  private sub: Subscription;
-  errorMessage: string;
-  advert: Advert;
-  pageTitle = 'Create New Advert';
+  id: number;
+  isAddMode: boolean;
+  loading = false;
+  submitted = false;
+  removeWhiteSpace: RegExp;
+  // City Names
+  //City: any = ['Florida', 'South Dakota', 'Tennessee', 'Michigan', 'New York']
 
   constructor(private fb: FormBuilder, private advertService: AdvertService,
     private route: ActivatedRoute,
@@ -25,124 +27,97 @@ export class CreateEditAdvertComponent implements OnDestroy {
 
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+    this.isAddMode = !this.id;
+    this.removeWhiteSpace = new RegExp("\\S");
+
     this.advertForm = this.fb.group({
-      advertHeadlineText: ['', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50)]],
-      province: '',
-      city:'',
-      price: ['', Validators.required],
+      advertHeadlineText:['', [Validators.required, Validators.minLength(10),Validators.maxLength(100), Validators.pattern(this.removeWhiteSpace)]],
+      province:['', Validators.required],
+      city: ['', Validators.required],
+      price:  ['', [Validators.required, Validators.minLength(10000),Validators.maxLength(100000000)]],
       advertDetails: '',
       userId: '',
-      releaseDate:''
+      releaseDate:  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
     });
 
     // Read the advert Id from the route parameter
-    this.sub = this.route.paramMap.subscribe(
-      params => {
-        const id = +params.get('id');
-        this.getAdvert(id);
-      }
-    );
+    if (!this.isAddMode) {
+      this.advertService.getById(this.id)
+        .pipe(first())
+        .subscribe(x => this.advertForm.patchValue(x));
+    }
 
   }
 
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
+  // convenience getter for easy access to form fields
+  get f() { return this.advertForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.advertForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.isAddMode) {
+      this.createAdvert();
+    } else {
+      this.updateAdvert();
+    }
   }
 
-  /** 
-  * get advert by Id from the server 
-  */
-  getAdvert(id: number): void {
-    this.advertService.getById(id)
+  private createAdvert() {
+    let currUser = JSON.parse(localStorage.getItem("currentUser"));
+    this.advertForm.controls['userId'].setValue(currUser["id"]);
+    this.advertService.create(this.advertForm.value)
+      .pipe(first())
       .subscribe({
-        next: (advert: Advert) => this.displayAdvert(advert),
-        error: err => this.errorMessage = err
+        next: () => {
+          alert('Advert added successfuly');
+          this.router.navigate(['/advert'], { relativeTo: this.route });
+        },
+        error: error => {
+          alert(error);
+          this.loading = false;
+        }
       });
   }
 
-
-  displayAdvert(advert:Advert): void {
-    if (this.advertForm) {
-      this.advertForm.reset();
-    }
-    this.advert = advert;
-
-    if (this.advert.id === 0) {
-      this.pageTitle = 'Create Advert';
-    } else {
-      this.pageTitle = `Edit Advert: ${this.advert.advertHeadlineText}`;
-    }
-
-    // Update the data on the form
-    this.advertForm.patchValue({
-      advertHeadlineText: this.advert.advertHeadlineText,
-      province: this.advert.province,
-      city:this.advert.city,
-      price: this.advert.price,
-      advertDetails:this.advert.advertDetails
-    });
-
-  }
-
-  /** 
-   * remove advert from the list 
-   */
-  deleteAdvert(): void {
-    if (this.advert.id === 0) {
-      // Don't delete, it was never saved.
-      this.onSaveComplete();
-    } else {
-      if (confirm(`Are you sure you want to remove: ${this.advert.advertHeadlineText}?`)) {
-        this.advertService.delete(this.advert.id)
-          .subscribe({
-            next: () => this.onSaveComplete(),
-            error: err => this.errorMessage = err
-          });
-      }
-    }
-  }
-
-  /** 
-   * create new advert and save it to Db 
-   */
-  saveAdvert(): void {
-    if (this.advertForm.valid) {
-      if (this.advertForm.dirty) {
-        let currUser = JSON.parse(localStorage.getItem("currentUser"));
-        this.advertForm.controls['userId'].setValue(currUser["id"]);
-        const p = { ...this.advert, ...this.advertForm.value };
-
-        if (p.id === 0) {
-          this.advertService.create(p)
-            .subscribe({
-              next: () => this.onSaveComplete(),
-              error: err => this.errorMessage = err
-            });
-        } else {
-          this.advertService.update(p.id,p)
-            .subscribe({
-              next: () => this.onSaveComplete(),
-              error: err => this.errorMessage = err
-            });
+  private updateAdvert() {
+    this.advertService.update(this.id, this.advertForm.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          alert('Advert updated successfuly');
+          this.router.navigate(['/advert'], { relativeTo: this.route });
+        },
+        error: error => {
+          alert(error);
+          this.loading = false;
         }
-      } else {
-        this.onSaveComplete();
-      }
-    } else {
-      this.errorMessage = 'Please correct the validation errors.';
+      });
+  }
+
+  //remove advert from the list 
+  deleteAdvert(): void {
+    if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
+      this.advertService.delete(this.id)
+        .pipe(first())
+        .subscribe({
+          next: () => {
+            alert('Advert deleted successfuly');
+            this.router.navigate(['/advert'], { relativeTo: this.route });
+          },
+          error: error => {
+            alert(error);
+            this.loading = false;
+          }
+        });
     }
   }
 
-  /** 
-   * navigate back to advert list if saved or updated successful 
-   */
-  onSaveComplete(): void {
-    // Reset the form to clear the flags
-    this.advertForm.reset();
-    alert("Success");
-    this.router.navigate(['/advert']);
-  }
 
 }

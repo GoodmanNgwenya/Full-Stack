@@ -17,32 +17,29 @@ export class AdvertService {
   }
 
   getById(id: number) {
-    if (id === 0) {
-      return of(this.initializeAdvert());
-    }
-    return this.http.get(`${environment.apiUrl}/adverts/${id}`);
+    return this.http.get<Advert>(`${environment.apiUrl}/adverts/${id}`);
   }
 
-  getAdvertsById(userId: number) {
+  getAdvertsById(userId: number): Observable<Advert[]> {
     if (userId === 0) {
-      return of(this.initializeAdvert());
+      of(this.initializeAdvert());
     }
-    return this.http.post<any>(`${environment.apiUrl}/adverts`, { userId })
-        .pipe(map(advert => {
-            return advert;
-        }));
+    return this.http.post<Advert[]>(`${environment.apiUrl}/adverts`, { userId })
+      .pipe(map(advert => {
+        return advert;
+      }));
   }
 
   create(advert: Advert) {
     return this.http.post(`${environment.apiUrl}/adverts/create`, advert);
   }
 
-  update(id: number, params) {
-    return this.http.put(`${environment.apiUrl}/${id}`, params);
+  update(id: number, advert:Advert) {
+    return this.http.put(`${environment.apiUrl}/adverts/${id}`, advert);
   }
 
   delete(id: number) {
-    return this.http.delete(`${environment.apiUrl}/${id}`);
+    return this.http.delete(`${environment.apiUrl}/adverts/${id}`);
   }
 
   private initializeAdvert(): Advert {
@@ -52,10 +49,10 @@ export class AdvertService {
       advertHeadlineText: null,
       releaseDate: null,
       province: null,
-      city:null,
+      city: null,
       price: null,
-      advertDetails:null,
-      advertStatus:null,
+      advertDetails: null,
+      advertStatus: null,
       userId: 0,
       imageUrl: null
     };

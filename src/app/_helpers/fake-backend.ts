@@ -155,7 +155,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
 
-
         // helper functions
 
         function ok(body?) {

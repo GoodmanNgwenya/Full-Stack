@@ -8,6 +8,8 @@ import { AdvertComponent } from './pages/advert/advert.component';
 import { RegisterComponent } from './register';
 import { AdvertEditGuard } from './pages/advert-edit.guard';
 import { CreateEditAdvertComponent } from './pages';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 const routes: Routes = [
@@ -23,18 +25,21 @@ const routes: Routes = [
     // { path: '', redirectTo: '', pathMatch: 'full' }
 
 ];
+const childroutes: Routes = [
+    { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
+    { path: 'editAdvert', component: CreateEditAdvertComponent },
+    {
+        // path: 'editAdvert/:id/edit',canDeactivate: [AdvertEditGuard],component: CreateEditAdvertComponent
+        path: 'editAdvert/:id/edit',component: CreateEditAdvertComponent
+    }
+];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes),
-    RouterModule.forChild([
-        { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
-        { path: 'editAdvert', component: CreateEditAdvertComponent },
-        {
-            path: 'editAdvert/:id/edit',
-            canDeactivate: [AdvertEditGuard],
-            component: CreateEditAdvertComponent
-        }
-    ])
+    RouterModule.forChild(childroutes),
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule 
     ],
   declarations: [
     CreateEditAdvertComponent

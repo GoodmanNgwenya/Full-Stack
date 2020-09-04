@@ -22,8 +22,7 @@ import { HomesForSaleComponent } from './pages/homes-for-sale/homes-for-sale.com
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
-    ],
+        AppRoutingModule  ],
     declarations: [
         AppComponent,
         HomeComponent,
