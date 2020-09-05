@@ -1,11 +1,7 @@
-using AutoMapper;
 using Fullstack.Data.Entities;
-using Microsoft.AspNetCore.Cors;
+using Fullstack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Controllers
@@ -15,12 +11,10 @@ namespace WebApi.Controllers
   public class UsersController : ControllerBase
   {
     private IUserService _userService;
-    private  IMapper _mapper;
 
-    public UsersController(IUserService userService, IMapper mapper)
+    public UsersController(IUserService userService)
     {
       _userService = userService;
-      _mapper = mapper;
     }
 
     [HttpPost("authenticate")]
@@ -40,22 +34,20 @@ namespace WebApi.Controllers
     {
 
       var users = _userService.GetAll();
-      var model = _mapper.Map<IList<UserModel>>(users);
-      return Ok(model);
+      return Ok(users);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
       var user = _userService.GetById(id);
-      var model = _mapper.Map<UserModel>(user);
-      return Ok(model);
+      return Ok(user);
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterDto model)
+    public IActionResult Register([FromBody] RegisterModel model)
     {
-      var user = _mapper.Map<User>(model);
+      var user = Map(model);
       try
       {
         // create user
@@ -68,5 +60,18 @@ namespace WebApi.Controllers
         return BadRequest(new { message = ex.Message });
       }
     }
+
+    private User Map(RegisterModel model)
+    {
+      return new User
+      {
+        FirstName = model.FirstName,
+        LastName = model.LastName,
+        Username = model.Username,
+        Role = model.Role
+      };
+    }
+
+
   }
 }

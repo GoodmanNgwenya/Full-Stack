@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fullstack.Data\Fullstack.Data.csproj" />
+    <ProjectReference Include="..\Fullstack.ViewModels\Fullstack.ViewModels.csproj" />
   </ItemGroup>
 
 

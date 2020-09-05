@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace WebApi.Models
+namespace Fullstack.ViewModels
 {
   public class UserModel
   {
@@ -14,3 +13,4 @@ namespace WebApi.Models
     public string Role { get; set; }
   }
 }
+

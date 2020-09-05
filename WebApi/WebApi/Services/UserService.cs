@@ -1,5 +1,6 @@
 using Fullstack.Data.DbContexts;
 using Fullstack.Data.Entities;
+using Fullstack.ViewModels;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -9,18 +10,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using WebApi.Helpers;
-using WebApi.Models;
 
 namespace WebApi.Services
 {
 
   public class UserService : IUserService
   {
-    // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-    //private List<User> _users = new List<User>
-    //{
-    //    new User { Id = 1, FirstName = "Goodman", LastName = "Ngwenya", Username = "test", Password = "test" }
-    //};
     private readonly PropertyListingContext _context;
 
     private readonly AppSettings _appSettings;
@@ -55,10 +50,11 @@ namespace WebApi.Services
     }
 
 
-    public IEnumerable<User> GetAll()
+    public IEnumerable<UserModel> GetAll()
     {
-      //return _users;
-      return _context.Users.ToList();
+     // return _context.Users.ToList();
+      var userList = _context.Users.ToList();
+      return userList.Select(u => Map(u));
     }
 
     //retgister User
@@ -83,16 +79,26 @@ namespace WebApi.Services
       return user;
     }
 
-   
-    public User GetById(int id)
+    public UserModel GetById(int id)
     {
-      // return _users.FirstOrDefault(x => x.Id == id);
-      return _context.Users.FirstOrDefault(x => x.Id == id);
+      var userEntity = _context.Users.FirstOrDefault(x => x.Id == id);
+      if (userEntity == null) return null;
+
+      return Map(userEntity);
     }
 
-
     // helper methods
-
+    private UserModel Map(User user)
+    {
+      return new UserModel
+      {
+        Id = user.Id,
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        Username = user.Username,
+        Role=user.Role
+      };
+    }
     private string generateJwtToken(User user)
     {
       // generate token that is valid for 7 days

@@ -1,8 +1,6 @@
-
-
 using Fullstack.Data.Entities;
 
-namespace WebApi.Models
+namespace Fullstack.ViewModels
 {
   public class AuthenticateResponse
   {
