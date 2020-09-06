@@ -52,13 +52,13 @@ namespace WebApi.Services
 
     public IEnumerable<UserModel> GetAll()
     {
-     // return _context.Users.ToList();
+      // return _context.Users.ToList();
       var userList = _context.Users.ToList();
       return userList.Select(u => Map(u));
     }
 
     //retgister User
-    public User CreateUser(User user,string password)
+    public User CreateUser(User user, string password)
     {
       // validation
       if (string.IsNullOrWhiteSpace(password))
@@ -96,7 +96,7 @@ namespace WebApi.Services
         FirstName = user.FirstName,
         LastName = user.LastName,
         Username = user.Username,
-        Role=user.Role
+        Role = user.Role
       };
     }
     private string generateJwtToken(User user)
@@ -144,6 +144,86 @@ namespace WebApi.Services
       }
 
       return true;
+    }
+
+    //Advert crud operation
+    public IEnumerable<AdvertModel> GetAllAdvert()
+    {
+      var advertList = _context.Adverts.ToList();
+      return advertList.Select(u => MapAdvert(u));
+    }
+
+    public AdvertModel GetAdvertById(int id)
+    {
+      var advertEntity = _context.Adverts.FirstOrDefault(x => x.Id == id);
+      if (advertEntity == null) return null;
+
+      return MapAdvert(advertEntity);
+    }
+
+    public IEnumerable<AdvertModel> GetAdvertsById(int userId)
+    {
+      var advertList = _context.Adverts.ToList();
+      return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId);
+    }
+
+    public Advert PostAdvert(Advert advertParam)
+    {
+      try
+      {
+        if (_context != null)
+        {
+          _context.Add(advertParam);
+          _context.SaveChanges();
+          return advertParam;
+        }
+        else
+        {
+          return null;
+        }
+      }
+      catch (Exception ex)
+      {
+        return null;
+      }
+
+    }
+
+    public Advert UpdateAdvert(Advert advertParam)
+    {
+      try
+      {
+        if (_context != null)
+        {
+          _context.Update(advertParam);
+          _context.SaveChanges();
+          return advertParam;
+        }
+        else
+        {
+          return null;
+        }
+      }
+      catch (Exception ex)
+      {
+        return null;
+      }
+
+    }
+
+    private AdvertModel MapAdvert(Advert advert)
+    {
+      return new AdvertModel
+      {
+        Id = advert.Id,
+        AdvertHeadlineText = advert.AdvertHeadlineText,
+        Province = advert.Province,
+        City = advert.City,
+        Price = advert.Price,
+        AdvertDetails = advert.AdvertDetails,
+        UserId = advert.UserId
+
+      };
     }
 
   }

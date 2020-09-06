@@ -38,7 +38,7 @@ export class CreateEditAdvertComponent implements OnInit {
       price:  ['', [Validators.required, Validators.minLength(10000),Validators.maxLength(100000000)]],
       advertDetails: '',
       userId: '',
-      releaseDate:  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
+      releaseDate:''//  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
     });
 
     // Read the advert Id from the route parameter

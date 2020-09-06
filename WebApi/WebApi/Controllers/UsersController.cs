@@ -51,7 +51,7 @@ namespace WebApi.Controllers
       try
       {
         // create user
-        _userService.CreateUser(user,model.Password);
+        _userService.CreateUser(user, model.Password);
         return Ok();
       }
       catch (Exception ex)

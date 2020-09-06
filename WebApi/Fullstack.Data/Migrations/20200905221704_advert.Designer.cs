@@ -4,14 +4,16 @@ using Fullstack.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fullstack.Data.Migrations
 {
     [DbContext(typeof(PropertyListingContext))]
-    partial class PropertyListingContextModelSnapshot : ModelSnapshot
+    [Migration("20200905221704_advert")]
+    partial class advert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace Fullstack.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdvertDetails")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AdvertHeadlineText")
                         .HasColumnType("nvarchar(max)");

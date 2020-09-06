@@ -4,14 +4,16 @@ using Fullstack.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fullstack.Data.Migrations
 {
     [DbContext(typeof(PropertyListingContext))]
-    partial class PropertyListingContextModelSnapshot : ModelSnapshot
+    [Migration("20200905221042_AdvertMigration")]
+    partial class AdvertMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,36 +28,33 @@ namespace Fullstack.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdvertDetails")
+                    b.Property<string>("advertHeadlineText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdvertHeadlineText")
+                    b.Property<string>("advertStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AdvertStatus")
+                    b.Property<string>("city")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ImageUrl")
+                    b.Property<byte[]>("imageUrl")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<double>("Price")
+                    b.Property<double>("price")
                         .HasColumnType("float");
 
-                    b.Property<string>("Province")
+                    b.Property<string>("province")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime>("releaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
                     b.ToTable("Adverts");
                 });
@@ -92,9 +91,9 @@ namespace Fullstack.Data.Migrations
 
             modelBuilder.Entity("Fullstack.Data.Entities.Advert", b =>
                 {
-                    b.HasOne("Fullstack.Data.Entities.User", "User")
+                    b.HasOne("Fullstack.Data.Entities.User", "user")
                         .WithMany("adverts")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -129,7 +129,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function createAdvert() {
             const advert = body
 
-            advert.id = adverts.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+           // advert.id = adverts.length ? Math.max(...adverts.map(x => x.id)) + 1 : 1;
+           advert.id =newAdvertId();
             adverts.push(advert);
             localStorage.setItem('adverts', JSON.stringify(adverts));
             return ok();
@@ -175,6 +176,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function idFromUrl() {
             const urlParts = url.split('/');
             return parseInt(urlParts[urlParts.length - 1]);
+        }
+        function newAdvertId() {
+            return adverts.length ? Math.max(...adverts.map(x => x.id)) + 1 : 1;
         }
     }
 }

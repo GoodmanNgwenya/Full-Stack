@@ -12,5 +12,12 @@ namespace WebApi.Services
     //User GetById(int id);
     UserModel GetById(int id);
     User CreateUser(User user,string password);
+
+    //advert details
+    IEnumerable<AdvertModel> GetAllAdvert();
+    AdvertModel GetAdvertById(int id);
+    IEnumerable<AdvertModel> GetAdvertsById(int id);
+    Advert PostAdvert(Advert advert);
+    Advert UpdateAdvert(Advert advert);
   }
 }
