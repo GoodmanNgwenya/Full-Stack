@@ -60,6 +60,44 @@ namespace Fullstack.Data.Migrations
                     b.ToTable("Adverts");
                 });
 
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityCity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EntityProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityProvinceId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityProvince", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Province")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Provinces");
+                });
+
             modelBuilder.Entity("Fullstack.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -97,6 +135,13 @@ namespace Fullstack.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityCity", b =>
+                {
+                    b.HasOne("Fullstack.Data.Entities.EntityProvince", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("EntityProvinceId");
                 });
 #pragma warning restore 612, 618
         }

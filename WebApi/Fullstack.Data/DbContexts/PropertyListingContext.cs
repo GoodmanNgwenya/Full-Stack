@@ -11,5 +11,7 @@ namespace Fullstack.Data.DbContexts
     }
     public DbSet<User> Users { get; set; }
     public DbSet<Advert> Adverts { get; set; }
+    public DbSet<EntityCity> Cities { get; set; }
+    public DbSet<EntityProvince> Provinces { get; set; }
   }
 }

@@ -19,5 +19,7 @@ namespace WebApi.Services
     IEnumerable<AdvertModel> GetAdvertsById(int id);
     Advert PostAdvert(Advert advert);
     Advert UpdateAdvert(Advert advert);
+    IEnumerable<ProvinceModel> GetAllProvince();
+    IEnumerable<CityModel> GetCities(int id);
   }
 }

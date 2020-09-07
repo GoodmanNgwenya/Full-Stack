@@ -41,7 +41,7 @@ namespace WebApi.Controllers
       return Ok(response);
     }
 
-    [HttpPost("create")]
+    [HttpPost("addAdvert")]
     public IActionResult AddAdvert([FromBody] AdvertModel model)
     {
       // map model to entity and set id

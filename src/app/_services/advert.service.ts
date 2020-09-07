@@ -4,6 +4,8 @@ import { Advert } from '@app/_models/advert';
 import { environment } from '@environments/environment';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ProvinceModel } from '@app/_models/province';
+import { CityModel } from '@app/_models/city';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,7 @@ export class AdvertService {
   }
 
   create(advert: Advert) {
-    return this.http.post(`${environment.apiUrl}/adverts/create`, advert);
+    return this.http.post(`${environment.apiUrl}/adverts/addAdvert`, advert);
   }
 
   update(id: number, advert:Advert) {
@@ -40,6 +42,24 @@ export class AdvertService {
 
   delete(id: number) {
     return this.http.delete(`${environment.apiUrl}/adverts/${id}`);
+  }
+
+  getAllProvince() {
+    return this.http.get<ProvinceModel[]>(`${environment.apiUrl}/address`)
+  }
+
+  // getCity(ProvinceId: number): Observable<CityModel[]>  
+  // {  
+  //   return this.http.get<CityModel[]>(`${environment.apiUrl}/address` + '/address?ProvinceId='+ProvinceId);  
+  // } 
+  getCity(provinceId: number): Observable<CityModel[]> {
+    if (provinceId === 0) {
+      of(this.initializeCity());
+    }
+    return this.http.post<CityModel[]>(`${environment.apiUrl}/address/city`, { provinceId })
+      .pipe(map(city => {
+        return city;
+      }));
   }
 
   private initializeAdvert(): Advert {
@@ -55,6 +75,15 @@ export class AdvertService {
       advertStatus: null,
       userId: 0,
       imageUrl: null
+    };
+  }
+
+  private initializeCity(): CityModel {
+    // Return an initialized object
+    return {
+      id: 0,
+      city: null,
+      provinceId:0
     };
   }
 

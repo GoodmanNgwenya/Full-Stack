@@ -3,6 +3,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AdvertService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { ProvinceModel, CityModel } from '@app/_models';
+import { Observable } from 'rxjs';
 
 @Component({
   // selector: 'app-create-edit-advert',
@@ -16,9 +18,10 @@ export class CreateEditAdvertComponent implements OnInit {
   loading = false;
   submitted = false;
   removeWhiteSpace: RegExp;
-  // City Names
-  //City: any = ['Florida', 'South Dakota', 'Tennessee', 'Michigan', 'New York']
-
+   _allProvince: Observable<ProvinceModel[]>;  
+  _allCity: Observable<CityModel[]>;  
+  SelProvinceId:number=0;  
+ 
   constructor(private fb: FormBuilder, private advertService: AdvertService,
     private route: ActivatedRoute,
     private router: Router) {
@@ -37,9 +40,11 @@ export class CreateEditAdvertComponent implements OnInit {
       city: ['', Validators.required],
       price:  ['', [Validators.required, Validators.minLength(10000),Validators.maxLength(100000000)]],
       advertDetails: '',
-      userId: '',
-      releaseDate:''//  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
+      userId: ''
+      //releaseDate:''//  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
     });
+
+    this.FillProvinceDropdown(); 
 
     // Read the advert Id from the route parameter
     if (!this.isAddMode) {
@@ -53,6 +58,15 @@ export class CreateEditAdvertComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.advertForm.controls; }
 
+  FillProvinceDropdown()  
+  {   
+    this._allProvince=this.advertService.getAllProvince();  
+  }  
+  FillCityDropdown(e: { target: { value: number; }; })  
+  {   
+    this._allCity=this.advertService.getCity(+e.target.value);  
+  } 
+
   onSubmit() {
     this.submitted = true;
 
@@ -60,6 +74,7 @@ export class CreateEditAdvertComponent implements OnInit {
     if (this.advertForm.invalid) {
       return;
     }
+
 
     this.loading = true;
     if (this.isAddMode) {

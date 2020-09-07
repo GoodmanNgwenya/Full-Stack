@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fullstack.Data.Migrations
 {
     [DbContext(typeof(PropertyListingContext))]
-    [Migration("20200905221704_advert")]
-    partial class advert
+    [Migration("20200907102852_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace Fullstack.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdvertDetails")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AdvertHeadlineText")
                         .HasColumnType("nvarchar(max)");
@@ -57,6 +60,44 @@ namespace Fullstack.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Adverts");
+                });
+
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityCity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EntityProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityProvinceId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityProvince", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Province")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("Fullstack.Data.Entities.User", b =>
@@ -96,6 +137,13 @@ namespace Fullstack.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Fullstack.Data.Entities.EntityCity", b =>
+                {
+                    b.HasOne("Fullstack.Data.Entities.EntityProvince", null)
+                        .WithMany("Cities")
+                        .HasForeignKey("EntityProvinceId");
                 });
 #pragma warning restore 612, 618
         }

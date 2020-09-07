@@ -40,7 +40,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUserById();
 
                 //advert
-                case url.endsWith('/adverts/create') && method === 'POST':
+                case url.endsWith('/adverts/addAdvert') && method === 'POST':
                     return createAdvert();
                 case url.endsWith('/adverts') && method === 'GET':
                     return getAdverts();

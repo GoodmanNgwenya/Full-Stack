@@ -18,19 +18,20 @@ namespace WebApi.Services
   {
 
     //private readonly PropertyListingContext _context;
-    private FullStackRepository _repo;
-    public UserService(FullStackRepository repo)
-    {
-      this._repo = repo;
-    }
-    private readonly AppSettings _appSettings;
+    private IFullStackRepository _repo;
 
-    public UserService(IOptions<AppSettings> appSettings/*, PropertyListingContext context*/)
+    private readonly AppSettings _appSettings;
+    public UserService(IOptions<AppSettings> appSettings, IFullStackRepository repo)
     {
       _appSettings = appSettings.Value;
-      //_context = context ?? throw new ArgumentNullException(nameof(context));
-
+      this._repo = repo;
     }
+    //public UserService(IOptions<AppSettings> appSettings/*, PropertyListingContext context*/)
+    //{
+    //  _appSettings = appSettings.Value;
+    //  //_context = context ?? throw new ArgumentNullException(nameof(context));
+
+    //}
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model)
     {
@@ -40,7 +41,7 @@ namespace WebApi.Services
       //var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
       //var user = _context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
       //var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
-      var user=_repo.GetUsers().SingleOrDefault(x => x.Username == model.Username);
+      var user = _repo.GetUsers().SingleOrDefault(x => x.Username == model.Username);
 
       // return null if user not found
       if (user == null) return null;
@@ -60,7 +61,7 @@ namespace WebApi.Services
     {
       // return _context.Users.ToList();
       //var userList = _context.Users.ToList();
-      var userList = _repo.GetUsers().ToList();
+      var userList = _repo.GetUsers();
       return userList.Select(u => Map(u));
     }
 
@@ -72,7 +73,7 @@ namespace WebApi.Services
         throw new AppException("Password is required");
 
       //if (_context.Users.Any(x => x.Username == user.Username))
-      if(_repo.GetUsers().Any(x => x.Username == user.Username))
+      if (_repo.GetUsers().Any(x => x.Username == user.Username))
         throw new AppException("Username \"" + user.Username + "\" is already taken");
 
       byte[] passwordHash, passwordSalt;
@@ -91,7 +92,7 @@ namespace WebApi.Services
     public UserModel GetById(int id)
     {
       //var userEntity = _context.Users.FirstOrDefault(x => x.Id == id);
-      var userEntity=_repo.GetUsers().FirstOrDefault(x => x.Id == id);
+      var userEntity = _repo.GetUser(id);
       if (userEntity == null) return null;
 
       return Map(userEntity);
@@ -159,75 +160,35 @@ namespace WebApi.Services
     //Advert crud operation
     public IEnumerable<AdvertModel> GetAllAdvert()
     {
-      //var advertList = _context.Adverts.ToList();
-      var advertList= _repo.GetUsers();
-      //return advertList.Select(u => MapAdvert(u));
-      return null;
-
+      var advertList = _repo.GetAdverts();
+      return advertList.Select(u => MapAdvert(u));
     }
 
     public AdvertModel GetAdvertById(int id)
     {
-      //var advertEntity = _context.Adverts.FirstOrDefault(x => x.Id == id);
-      var advertEntity = _repo.GetUser(id);
+      var advertEntity = _repo.GetAdvert(id);
       if (advertEntity == null) return null;
 
-      // return MapAdvert(advertEntity);
-      return null;
+      return MapAdvert(advertEntity);
     }
 
     public IEnumerable<AdvertModel> GetAdvertsById(int userId)
     {
-      //var advertList = _context.Adverts.ToList();
-      var advertList = _repo.GetUsers();
-     // return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId);
-      return null;
+      var advertList = _repo.GetAdverts();
+      return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId);
     }
 
     public Advert PostAdvert(Advert advertParam)
     {
-      try
-      {
-        //if (_context != null)
-        //{
-        //  _context.Add(advertParam);
-        //  _context.SaveChanges();
-        //  return advertParam;
-        //}
-        //else
-        //{
-        //  return null;
-        //}
-        return null;
-      }
-      catch (Exception ex)
-      {
-        return null;
-      }
+      _repo.AddAdvert(advertParam);
+      return advertParam;
 
     }
 
     public Advert UpdateAdvert(Advert advertParam)
     {
-      try
-      {
-        //if (_context != null)
-        //{
-        //  _context.Update(advertParam);
-        //  _context.SaveChanges();
-        //  return advertParam;
-        //}
-        //else
-        //{
-        //  return null;
-        //}
-        return null;
-      }
-      catch (Exception ex)
-      {
-        return null;
-      }
-
+      _repo.UpdateAdvert(advertParam);
+      return advertParam;
     }
 
     private AdvertModel MapAdvert(Advert advert)
@@ -244,6 +205,39 @@ namespace WebApi.Services
 
       };
     }
+
+    //province and city dropdown
+    public IEnumerable<ProvinceModel> GetAllProvince()
+    {
+      var provinceList = _repo.GetProvince();
+      return provinceList.Select(u => MapProvince(u));
+    }
+
+    public IEnumerable<CityModel> GetCities(int provinceId)
+    {
+      var cityList = _repo.GetCities();
+      return cityList.Select(u => MapCity(u)).Where(s => s.ProvinceId == provinceId);
+    }
+
+    private CityModel MapCity(EntityCity entityCity)
+    {
+      return new CityModel
+      {
+        Id = entityCity.Id,
+        City = entityCity.City,
+        ProvinceId = entityCity.ProvinceId
+      };
+    }
+
+    private ProvinceModel MapProvince(EntityProvince entityProvince)
+    {
+      return new ProvinceModel
+      {
+        Id = entityProvince.Id,
+        Province = entityProvince.Province
+      };
+    }
+
 
   }
 }

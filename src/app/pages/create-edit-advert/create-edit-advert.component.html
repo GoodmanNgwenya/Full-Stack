@@ -18,16 +18,42 @@
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="provinceId">Province</label>
-                <div class="col-md-8">
+                <!-- <div class="col-md-8">
                     <input class="form-control" id="provinceId" type="text" placeholder="Province"
                         formControlName="province" [ngClass]="{ 'is-invalid': submitted && f.province.errors }" />
+                </div> -->
+                <div class="col-md-8">
+                    <!-- <select formControlName="province" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.province.errors }">
+                    <option >Mpumalanga</option>
+                    <option>Gauteng</option>
+                </select> -->
+                    <select class="form-control" formControlName="province"
+                        [ngClass]="{ 'is-invalid': submitted && f.province.errors }" 
+                        (change)="FillCityDropdown($event)">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let Prov of _allProvince | async" value={{Prov.id}}>
+                            {{Prov.province}}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
+                        <div *ngIf="f.province.errors.required">Title is required</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="cityId">City</label>
-                <div class="col-md-8">
+                <!-- <div class="col-md-8">
                     <input class="form-control" id="cityId" type="text" placeholder="City" formControlName="city"
                         [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+                </div> -->
+                <div class="col-md-8">
+                    <select class="form-control" formControlName="city"
+                    [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let City of _allCity | async" value={{City.id}}>
+                            {{City.city}}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group row mb-2">
