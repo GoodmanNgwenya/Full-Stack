@@ -160,7 +160,7 @@ namespace WebApi.Services
     //Advert crud operation
     public IEnumerable<AdvertModel> GetAllAdvert()
     {
-      var advertList = _repo.GetAdverts();
+      var advertList = _repo.GetAdverts().Where(x=>x.AdvertStatus=="live");
       return advertList.Select(u => MapAdvert(u));
     }
 
@@ -175,7 +175,7 @@ namespace WebApi.Services
     public IEnumerable<AdvertModel> GetAdvertsById(int userId)
     {
       var advertList = _repo.GetAdverts();
-      return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId);
+      return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId && (s.AdvertStatus == "live" || s.AdvertStatus == "hiden"));
     }
 
     public Advert PostAdvert(Advert advertParam)
@@ -191,6 +191,10 @@ namespace WebApi.Services
       return advertParam;
     }
 
+    public void Delete(int id)
+    {
+      _repo.DeleteAdvert(id);
+    }
     private AdvertModel MapAdvert(Advert advert)
     {
       return new AdvertModel
@@ -201,7 +205,9 @@ namespace WebApi.Services
         City = advert.City,
         Price = advert.Price,
         AdvertDetails = advert.AdvertDetails,
-        UserId = advert.UserId
+        UserId = advert.UserId,
+        ReleaseDate=advert.ReleaseDate,
+        AdvertStatus=advert.AdvertStatus
 
       };
     }

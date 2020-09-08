@@ -97,7 +97,7 @@
 </div>
 <!-- Filter Search Section End -->
 <!-- Hotel Room Section Begin -->
-<section class="hotel-rooms spad">
+<!-- <section class="hotel-rooms spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-6">
@@ -402,5 +402,69 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- Hotel Room Section End -->
+
+<!--List of advert-->
+<section class="hotel-rooms spad">
+    <div class="container">
+        <div class="row" *ngIf='adverts && adverts.length'>
+            <div class="col-lg-4 col-md-6" *ngFor='let advert of adverts'>
+                <div class="room-items">
+                    <div class="room-img set-bg" data-setbg="assets/images/1.jpg">
+                        <img src="assets/images/1.jpg" style="block-size: 100%;" alt="">
+                        <a href="#" class="room-content">
+                            <i class="flaticon-heart"></i>
+                        </a>
+                    </div>
+                    <div class="room-text">
+                        <div class="room-details">
+                            <div class="room-title">
+                                <h5>{{advert.advertHeadlineText}}</h5>
+                                <p>{{advert.advertDetails}}<br></p>
+                                <a href="#"><i class="flaticon-placeholder"></i>
+                                    <span>Province: {{advert.province}}</span></a>
+
+                                <a href="#"><i class="flaticon-placeholder"></i>
+                                    <span>City: {{advert.city}}</span></a>
+
+                                <!-- <a href="#" class="large-width"><i class="flaticon-cursor"></i> <span>Show on
+                            Map</span></a> -->
+                            </div>
+                        </div>
+                        <div class="room-features">
+                            <div class="room-info">
+                                <div class="size">
+                                    <p>Lot Size</p>
+                                    <img src="assets/images/size.png" alt="">
+                                    <i class="flaticon-bath"></i>
+                                    <span>2561 sqft</span>
+                                </div>
+                                <div class="beds">
+                                    <p>Beds</p>
+                                    <img src="assets/images/bed.png" alt="">
+                                    <span>9</span>
+                                </div>
+                                <div class="baths">
+                                    <p>Baths</p>
+                                    <img src="assets/images/bath.png" alt="">
+                                    <span>2</span>
+                                </div>
+                                <div class="garage">
+                                    <p>Garage</p>
+                                    <img src="assets/images/garage.png" alt="">
+                                    <span>1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="room-price">
+                            <p>For Sale</p>
+                            <span>{{advert.price|currency:'R':'symbol':'1.2-2'}}</span>
+                        </div>
+                        <p>Posted On: {{advert.releaseDate}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -13,47 +13,39 @@
                         [ngClass]="{ 'is-invalid': submitted && f.advertHeadlineText.errors }" />
                     <div *ngIf="submitted && f.advertHeadlineText.errors" class="invalid-feedback">
                         <div *ngIf="f.advertHeadlineText.errors.required">Advert Headline Text is required</div>
+                        <div *ngIf="f.advertHeadlineText.errors.pattern">Incorrect input value</div>
                     </div>
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="provinceId">Province</label>
-                <!-- <div class="col-md-8">
-                    <input class="form-control" id="provinceId" type="text" placeholder="Province"
-                        formControlName="province" [ngClass]="{ 'is-invalid': submitted && f.province.errors }" />
-                </div> -->
                 <div class="col-md-8">
-                    <!-- <select formControlName="province" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.province.errors }">
-                    <option >Mpumalanga</option>
-                    <option>Gauteng</option>
-                </select> -->
                     <select class="form-control" formControlName="province"
-                        [ngClass]="{ 'is-invalid': submitted && f.province.errors }" 
-                        (change)="FillCityDropdown($event)">
+                        [ngClass]="{ 'is-invalid': submitted && f.province.errors }"
+                        (change)="FillCityDropdown($event.target.value)">
                         <option value="">--Select--</option>
-                        <option *ngFor="let Prov of _allProvince | async" value={{Prov.id}}>
+                        <option *ngFor="let Prov of _allProvince" [value]="Prov.province">
                             {{Prov.province}}
                         </option>
                     </select>
                     <div *ngIf="submitted && f.province.errors" class="invalid-feedback">
-                        <div *ngIf="f.province.errors.required">Title is required</div>
+                        <div *ngIf="f.province.errors.required">Province is required</div>
                     </div>
                 </div>
             </div>
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="cityId">City</label>
-                <!-- <div class="col-md-8">
-                    <input class="form-control" id="cityId" type="text" placeholder="City" formControlName="city"
-                        [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
-                </div> -->
                 <div class="col-md-8">
                     <select class="form-control" formControlName="city"
-                    [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                        [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
                         <option value="">--Select--</option>
-                        <option *ngFor="let City of _allCity | async" value={{City.id}}>
+                        <option *ngFor="let City of _allCity">
                             {{City.city}}
                         </option>
                     </select>
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                        <div *ngIf="f.city.errors.required">City is required</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group row mb-2">
@@ -62,6 +54,10 @@
                     <textarea class="form-control" id="advertDetailsId" placeholder="Advert Details" rows=3
                         formControlName="advertDetails"
                         [ngClass]="{ 'is-invalid': submitted && f.advertDetails.errors }"></textarea>
+                    <div *ngIf="submitted && f.advertDetails.errors" class="invalid-feedback">
+                        <div *ngIf="f.advertDetails.errors.required">Advert details is required</div>
+                        <div *ngIf="f.advertDetails.errors.pattern">Incorrect input value</div>
+                    </div>
                 </div>
             </div>
 
@@ -70,29 +66,38 @@
                 <div class="col-md-8">
                     <input class="form-control" id="priceId" type="number" placeholder="Price" formControlName="price"
                         [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                        <div *ngIf="f.price.errors.required">Advert Price is required</div>
+                        <div *ngIf="f.price.errors.min">
+                            Minimum amount is 10000.
+                        </div>
+                        <div *ngIf="f.price.errors.max">
+                            Maximun amount is 100000000.
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row mb-2">
-                <div class="offset-md-2 col-md-4">
+                <div class="offset-md-2 col-md-6">
 
-                    <button class="btn btn-primary mr-3" style="width:80px;" type="submit" [disabled]="loading">
+                    <button class="btn btn-primary mr-3" type="submit" [disabled]="loading">
                         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                         Save
                     </button>
-                    <button class="btn btn-outline-secondary mr-3" style="width:80px;" type="button"
-                        title="Cancel your edits" routerLink="/advert">
+                    <button class="btn btn-outline-secondary mr-3" type="button" title="Cancel your edits"
+                        routerLink="/advert">
                         Cancel
                     </button>
 
-                    <button class="btn btn-primary mr-3" style="width:80px;" type="button" title="Delete this advert"
-                        (click)="deleteAdvert()">
+                    <button *ngIf="!isAddMode" class="btn btn-primary mr-3" type="button" title="Delete this advert"
+                        (click)="removeAdvert()">
                         Delete
                     </button>
-                    <!-- <br /><br />
-                   <button class="btn btn-primary mr-3" style="width:80px;" type="submit" routerLink="/advert">
-                        Back
-                    </button> -->
+                    <button *ngIf="!isAddMode" class="btn btn-outline-secondary mr-3" type="button"
+                        title="Cancel your edits" (click)="hideAdvert()">
+                        <span>Hide Advert</span>
+                    </button>
 
                 </div>
             </div>

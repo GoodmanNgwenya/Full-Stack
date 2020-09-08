@@ -95,6 +95,13 @@ namespace WebApi.Controllers
       }
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+      _userService.Delete(id);
+      return Ok();
+    }
+
     private Advert MapAdvert(AdvertModel model)
     {
       return new Advert
@@ -104,7 +111,9 @@ namespace WebApi.Controllers
         Province = model.Province,
         City = model.City,
         Price = model.Price,
-        UserId=model.UserId
+        UserId=model.UserId,
+        ReleaseDate=model.ReleaseDate,
+        AdvertStatus=model.AdvertStatus
       };
     }
   }

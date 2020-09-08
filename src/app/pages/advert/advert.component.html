@@ -24,6 +24,7 @@
                         <div class="room-details">
                             <div class="room-title">
                                 <h5>{{advert.advertHeadlineText}}</h5>
+                                <p>{{advert.advertDetails}}<br></p>
                                 <a href="#"><i class="flaticon-placeholder"></i>
                                     <span>Province: {{advert.province}}</span></a>
 
@@ -63,7 +64,10 @@
                             <p>For Sale</p>
                             <span>{{advert.price|currency:'R':'symbol':'1.2-2'}}</span>
                         </div>
+
                         <div>
+                            <p>Posted On: {{advert.releaseDate}}</p>
+                            <p>Status: <span style="color: red;">{{advert.advertStatus}}</span></p>
                             <button class="btn btn-outline-primary btn-sm" style="float:right"
                                 [routerLink]="['/editAdvert', advert.id, 'edit']">
                                 Edit

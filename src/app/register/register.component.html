@@ -18,7 +18,7 @@
                 [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
               <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                 <div *ngIf="f.lastName.errors.required">Last Name is required</div>
-                <div *ngIf="f.lastName.errors.pattern">Blank space not required</div>
+                <div *ngIf="f.lastName.errors.pattern">Incorrect input value</div>
               </div>
             </div>
           </div>

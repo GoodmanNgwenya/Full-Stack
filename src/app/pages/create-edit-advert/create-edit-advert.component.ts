@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { AdvertService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { ProvinceModel, CityModel } from '@app/_models';
 import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   // selector: 'app-create-edit-advert',
-  templateUrl: './create-edit-advert.component.html'
+  templateUrl: './create-edit-advert.component.html',
+  providers: [DatePipe]
 })
 export class CreateEditAdvertComponent implements OnInit {
 
@@ -18,14 +20,17 @@ export class CreateEditAdvertComponent implements OnInit {
   loading = false;
   submitted = false;
   removeWhiteSpace: RegExp;
-   _allProvince: Observable<ProvinceModel[]>;  
-  _allCity: Observable<CityModel[]>;  
-  SelProvinceId:number=0;  
- 
+  _allProvince: ProvinceModel[];
+  _allCity: CityModel[];
+  currentDate: any = new Date();
+  advStatus: string;
+
   constructor(private fb: FormBuilder, private advertService: AdvertService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private datePipe: DatePipe) {
 
+    this.currentDate = this.datePipe.transform(this.currentDate, 'dd-MM-yyyy');
+    this.advStatus = "live";
   }
 
 
@@ -35,16 +40,19 @@ export class CreateEditAdvertComponent implements OnInit {
     this.removeWhiteSpace = new RegExp("\\S");
 
     this.advertForm = this.fb.group({
-      advertHeadlineText:['', [Validators.required, Validators.minLength(10),Validators.maxLength(100), Validators.pattern(this.removeWhiteSpace)]],
-      province:['', Validators.required],
+      advertHeadlineText: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100), Validators.pattern(this.removeWhiteSpace)]],
+      province: ['', Validators.required],
       city: ['', Validators.required],
-      price:  ['', [Validators.required, Validators.minLength(10000),Validators.maxLength(100000000)]],
-      advertDetails: '',
-      userId: ''
-      //releaseDate:''//  ['', [Validators.required,Validators.minLength(10), Validators.maxLength(1000)]],
+      price: ['', [Validators.required,
+      (control: AbstractControl) => Validators.min(10000)(control),
+      (control: AbstractControl) => Validators.max(100000000)(control)]],
+      advertDetails: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000), Validators.pattern(this.removeWhiteSpace)]],
+      userId: '',
+      releaseDate: '',
+      advertStatus: ''
     });
 
-    this.FillProvinceDropdown(); 
+    this.FillProvinceDropdown();
 
     // Read the advert Id from the route parameter
     if (!this.isAddMode) {
@@ -58,14 +66,24 @@ export class CreateEditAdvertComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.advertForm.controls; }
 
-  FillProvinceDropdown()  
-  {   
-    this._allProvince=this.advertService.getAllProvince();  
-  }  
-  FillCityDropdown(e: { target: { value: number; }; })  
-  {   
-    this._allCity=this.advertService.getCity(+e.target.value);  
-  } 
+
+  //populate the province dropdown
+  FillProvinceDropdown() {
+    this.advertService.getAllProvince()
+      .pipe(first()).subscribe(province => {
+        this._allProvince = province;
+      });
+  }
+
+  //populate the city dropdown based on the province selected
+  FillCityDropdown(e) {
+    var prov = this._allProvince.find(x => x.province == e)
+    this.advertService.getCity(prov.id)
+      .pipe(first()).subscribe(cities => {
+        this._allCity = cities;
+      });
+  }
+
 
   onSubmit() {
     this.submitted = true;
@@ -74,7 +92,7 @@ export class CreateEditAdvertComponent implements OnInit {
     if (this.advertForm.invalid) {
       return;
     }
-
+    this.advertForm.controls['releaseDate'].setValue(this.currentDate);
 
     this.loading = true;
     if (this.isAddMode) {
@@ -84,7 +102,9 @@ export class CreateEditAdvertComponent implements OnInit {
     }
   }
 
+  //Add new advert method
   private createAdvert() {
+    this.advertForm.controls['advertStatus'].setValue(this.advStatus);
     let currUser = JSON.parse(localStorage.getItem("currentUser"));
     this.advertForm.controls['userId'].setValue(currUser["id"]);
     this.advertService.create(this.advertForm.value)
@@ -101,6 +121,7 @@ export class CreateEditAdvertComponent implements OnInit {
       });
   }
 
+  //update advert mthod
   private updateAdvert() {
     this.advertService.update(this.id, this.advertForm.value)
       .pipe(first())
@@ -116,7 +137,16 @@ export class CreateEditAdvertComponent implements OnInit {
       });
   }
 
-  //remove advert from the list 
+  //remove advert from the list
+  removeAdvert(): void {
+    if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
+      this.advStatus = "deleted";
+      this.advertForm.controls['advertStatus'].setValue(this.advStatus);
+      this.router.navigate(['/advert'], { relativeTo: this.route });
+    }
+  }
+
+  //remove advert from the list and on datadase permanently 
   deleteAdvert(): void {
     if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
       this.advertService.delete(this.id)
@@ -131,6 +161,15 @@ export class CreateEditAdvertComponent implements OnInit {
             this.loading = false;
           }
         });
+    }
+  }
+
+  //hide the advert
+  hideAdvert(): void {
+    if (confirm(`Are you sure you want to hide the advert with title: ${this.advertForm.value.advertHeadlineText}?`)) {
+      this.advStatus = "hiden";
+      this.advertForm.controls['advertStatus'].setValue(this.advStatus);
+      this.updateAdvert();
     }
   }
 

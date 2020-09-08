@@ -12,7 +12,7 @@ namespace Fullstack.Data.Entities
     public string City { get; set; }
     public double Price { get; set; }
     public string AdvertDetails { get; set; }
-    public DateTime ReleaseDate { get; set; }
+    public string ReleaseDate { get; set; }
     public byte[] ImageUrl { get; set; }
     public string AdvertStatus { get; set; }
     public int UserId { get; set; }
