@@ -19,9 +19,9 @@ namespace Fullstack.Data.DbContexts
     void DeleteAdvert(int id);
 
     //dropdown
-    List<EntityProvince> GetProvince();
-    List<EntityCity> GetCities();
-    EntityCity GetCity(int id);
+    List<Province> GetProvince();
+    List<City> GetCities();
+    City GetCity(int id);
 
   }
 }

@@ -27,6 +27,11 @@ E:\Bitcube Internship\Full Stack\WebApi\WebApi\bin\Debug\netcoreapp3.1\Microsoft
 E:\Bitcube Internship\Full Stack\WebApi\WebApi\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
 E:\Bitcube Internship\Full Stack\WebApi\WebApi\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 E:\Bitcube Internship\Full Stack\WebApi\WebApi\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csprojAssemblyReference.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfoInputs.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfo.cs
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CoreCompileInputs.cache
+E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.MvcApplicationPartsAssemblyInfo.cache
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\appsettings.json
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -70,11 +75,6 @@ E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcor
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Fullstack.ViewModels.dll
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Fullstack.Data.pdb
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\bin\Debug\netcoreapp3.1\Fullstack.ViewModels.pdb
-E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csprojAssemblyReference.cache
-E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfoInputs.cache
-E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.AssemblyInfo.cs
-E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CoreCompileInputs.cache
-E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.MvcApplicationPartsAssemblyInfo.cache
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.RazorTargetAssemblyInfo.cache
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\WebApi.csproj.CopyComplete
 E:\Bitcube Internship\Full Stack\Property-Listing\WebApi\WebApi\obj\Debug\netcoreapp3.1\staticwebassets\WebApi.StaticWebAssets.Manifest.cache

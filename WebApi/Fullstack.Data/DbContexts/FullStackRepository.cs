@@ -116,15 +116,15 @@ namespace Fullstack.Data.DbContexts
 
     //populate province and city dropdown
     //crud operation for advert
-    public List<EntityProvince> GetProvince()
+    public List<Province> GetProvince()
     {
       return _context.Provinces.ToList();
     }
-    public List<EntityCity> GetCities()
+    public List<City> GetCities()
     {
       return _context.Cities.ToList();
     }
-    public EntityCity GetCity(int id)
+    public City GetCity(int id)
     {
       return _context.Cities.Find(id);
     }

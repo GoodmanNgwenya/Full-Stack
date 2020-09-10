@@ -35,6 +35,7 @@ namespace WebApi
       services.AddScoped<IFullStackRepository, FullStackRepository>();
 
       // configure DI for application services
+      services.AddScoped<IAdvertService, AdvertService>();
       services.AddScoped<IUserService, UserService>();
     }
 

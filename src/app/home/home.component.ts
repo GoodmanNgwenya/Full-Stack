@@ -3,22 +3,29 @@ import { first } from 'rxjs/operators';
 
 import { User, Advert } from '@app/_models';
 import { UserService, AuthenticationService, AdvertService } from '@app/_services';
+import '@app/shared/advert.css';
 
 @Component({
-    templateUrl: 'home.component.html',
-    styleUrls:['home.component.css']
+  templateUrl: 'home.component.html',
+  styleUrls: ['../shared/advert.css']
 })
 export class HomeComponent {
-    adverts: Advert[];
-    
-    constructor(private advertService: AdvertService) { }
+  adverts: Advert[];
+  pageOfItems: Array<any>;
 
-    ngOnInit() {
-        this.advertService.getAll()
+  constructor(private advertService: AdvertService) { }
+
+  ngOnInit() {
+    this.advertService.getAll()
       .subscribe({
         next: adverts => {
           this.adverts = adverts;
         }
       })
-    }
+  }
+
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
+  }
 }

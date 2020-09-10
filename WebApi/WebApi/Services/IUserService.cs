@@ -7,20 +7,9 @@ namespace WebApi.Services
   public interface IUserService
   {
     AuthenticateResponse Authenticate(AuthenticateRequest model);
-   // IEnumerable<User> GetAll();
-    IEnumerable<UserModel> GetAll();
-    //User GetById(int id);
+    List<UserModel> GetAll();
     UserModel GetById(int id);
     User CreateUser(User user,string password);
 
-    //advert details
-    IEnumerable<AdvertModel> GetAllAdvert();
-    AdvertModel GetAdvertById(int id);
-    IEnumerable<AdvertModel> GetAdvertsById(int id);
-    Advert PostAdvert(Advert advert);
-    Advert UpdateAdvert(Advert advert);
-    void Delete(int id);
-    IEnumerable<ProvinceModel> GetAllProvince();
-    IEnumerable<CityModel> GetCities(int id);
   }
 }

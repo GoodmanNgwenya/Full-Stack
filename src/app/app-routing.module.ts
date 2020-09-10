@@ -7,43 +7,41 @@ import { AuthGuard } from './_helpers';
 import { AdvertComponent } from './pages/advert/advert.component';
 import { RegisterComponent } from './register';
 import { AdvertEditGuard } from './pages/advert-edit.guard';
-import { CreateEditAdvertComponent } from './pages';
+import { CreateEditAdvertComponent, AdvertDetailsComponent } from './pages';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 
 const routes: Routes = [
-    //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: '', redirectTo: 'home', pathMatch: 'full' }
+  //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' }
 
-    // otherwise redirect to home
-    //{ path: '**', redirectTo: '' }
-    // { path: '', redirectTo: '', pathMatch: 'full' }
+  // otherwise redirect to home
+  //{ path: '**', redirectTo: '' }
+  // { path: '', redirectTo: '', pathMatch: 'full' }
 
 ];
 const childroutes: Routes = [
-    { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
-    { path: 'editAdvert', component: CreateEditAdvertComponent },
-    {
-        // path: 'editAdvert/:id/edit',canDeactivate: [AdvertEditGuard],component: CreateEditAdvertComponent
-        path: 'editAdvert/:id/edit',component: CreateEditAdvertComponent
-    }
+  { path: 'advert', component: AdvertComponent, canActivate: [AuthGuard] },
+  { path: 'editAdvert', component: CreateEditAdvertComponent },
+  { path: 'editAdvert/:id/edit', component: CreateEditAdvertComponent },
+  { path: 'viewAdvert/:id/view', component: AdvertDetailsComponent }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes),
-    RouterModule.forChild(childroutes),
+  imports: [RouterModule.forRoot(routes),
+  RouterModule.forChild(childroutes),
     FormsModule,
     ReactiveFormsModule,
-    CommonModule 
-    ],
+    CommonModule
+  ],
   declarations: [
     CreateEditAdvertComponent
   ],
-    exports: [RouterModule]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Fullstack.Data.Entities
 {
-  public class EntityCity
+  public class City
   {
     public int Id { get; set; }
-    public string City { get; set; }
+    public string CityName { get; set; }
     public int ProvinceId { get; set; }
 
   }

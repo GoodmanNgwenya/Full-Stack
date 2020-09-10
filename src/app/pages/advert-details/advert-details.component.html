@@ -1,0 +1,109 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="text-center">Advert Details</h4>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="advertForm">
+            <section class="hotel-rooms spad">
+                <div class="container">
+                    <div col-2>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="room-items">
+                                    <div class="room-img set-bg">
+                                        <img src="assets/images/1.jpg" style="block-size: 100%;" alt="">
+                                        <a href="#" class="room-content">
+                                            <i class="flaticon-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="room-text">
+                                        <div class="room-features">
+                                            <div class="room-info">
+                                                <div class="size">
+                                                    <p>Lot Size</p>
+                                                    <img src="assets/images/size.png" alt="">
+                                                    <i class="flaticon-bath"></i>
+                                                    <span>2561 sqft</span>
+                                                </div>
+                                                <div class="beds">
+                                                    <p>Beds</p>
+                                                    <img src="assets/images/bed.png" alt="">
+                                                    <span>9</span>
+                                                </div>
+                                                <div class="baths">
+                                                    <p>Baths</p>
+                                                    <img src="assets/images/bath.png" alt="">
+                                                    <span>2</span>
+                                                </div>
+                                                <div class="garage">
+                                                    <p>Garage</p>
+                                                    <img src="assets/images/garage.png" alt="">
+                                                    <span>1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="room-price">
+                                            <p>For Sale</p>
+                                            <span><label>{{getControlLabel('price')|currency:'R':'symbol':'1.2-2'}}</label></span>
+                                        </div>
+                                        <p>Posted On: {{getControlLabel('releaseDate')}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="container p-3 my-3 border" style="border-radius: 4px;">
+                                    <div class="row-2">
+                                        <h1>{{getControlLabel('advertHeadlineText')}}</h1>
+                                        <br>
+                                    </div>
+                                    <div class="row-2">
+                                        <span>Province: {{getControlLabel('province')}}</span>
+                                    </div>
+                                    <div class="row-2">
+                                        <span>City: {{getControlLabel('city')}}</span>
+                                    </div>
+                                    <div class="row-2">
+                                        <div class="container p-3 my-3 border">
+                                            <p>{{getControlLabel('advertDetails')}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="container p-3 my-3 border" style="border-radius: 4px;">
+                                    <div class="row-2">
+                                        <h4 class="text-center">Contact Seller</h4>
+                                        <br>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" data-val="true" placeholder="Your Name" type="text"
+                                            value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" data-val="true" placeholder="Your Email" type="text"
+                                            value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" data-val="true" placeholder="Your Mobile Number"
+                                            type="text" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" cols="20" data-val="true"
+                                            placeholder="Message Body" rows="4"></textarea>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <button type="submit" class="btn btn-block btn-success">
+                                        Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </form>
+
+    </div>
+</div>

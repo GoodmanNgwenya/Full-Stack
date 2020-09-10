@@ -16,13 +16,16 @@ import { AdvertComponent } from './pages/advert/advert.component';
 import { RegisterComponent } from './register/register.component';
 import { SellerProfileComponent } from './pages/seller-profile/seller-profile.component';
 import { HomesForSaleComponent } from './pages/homes-for-sale/homes-for-sale.component';
+import { AdvertDetailsComponent } from './pages/advert-details/advert-details.component';
+import { JwPaginationModule } from 'jw-angular-pagination';
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule  ],
+        AppRoutingModule,
+        JwPaginationModule],
     declarations: [
         AppComponent,
         HomeComponent,
@@ -30,7 +33,8 @@ import { HomesForSaleComponent } from './pages/homes-for-sale/homes-for-sale.com
         AdvertComponent,
         RegisterComponent,
         HomesForSaleComponent,
-        SellerProfileComponent
+        SellerProfileComponent,
+        AdvertDetailsComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

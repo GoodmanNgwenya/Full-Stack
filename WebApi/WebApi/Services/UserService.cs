@@ -17,7 +17,6 @@ namespace WebApi.Services
   public class UserService : IUserService
   {
 
-    //private readonly PropertyListingContext _context;
     private IFullStackRepository _repo;
 
     private readonly AppSettings _appSettings;
@@ -26,21 +25,11 @@ namespace WebApi.Services
       _appSettings = appSettings.Value;
       this._repo = repo;
     }
-    //public UserService(IOptions<AppSettings> appSettings/*, PropertyListingContext context*/)
-    //{
-    //  _appSettings = appSettings.Value;
-    //  //_context = context ?? throw new ArgumentNullException(nameof(context));
-
-    //}
-
     public AuthenticateResponse Authenticate(AuthenticateRequest model)
     {
       if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
         return null;
 
-      //var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
-      //var user = _context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
-      //var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
       var user = _repo.GetUsers().SingleOrDefault(x => x.Username == model.Username);
 
       // return null if user not found
@@ -57,12 +46,10 @@ namespace WebApi.Services
     }
 
 
-    public IEnumerable<UserModel> GetAll()
+    public List<UserModel> GetAll()
     {
-      // return _context.Users.ToList();
-      //var userList = _context.Users.ToList();
       var userList = _repo.GetUsers();
-      return userList.Select(u => Map(u));
+      return userList.Select(u => Map(u)).ToList();
     }
 
     //retgister User
@@ -72,7 +59,6 @@ namespace WebApi.Services
       if (string.IsNullOrWhiteSpace(password))
         throw new AppException("Password is required");
 
-      //if (_context.Users.Any(x => x.Username == user.Username))
       if (_repo.GetUsers().Any(x => x.Username == user.Username))
         throw new AppException("Username \"" + user.Username + "\" is already taken");
 
@@ -82,8 +68,6 @@ namespace WebApi.Services
       user.PasswordHash = passwordHash;
       user.PasswordSalt = passwordSalt;
 
-      // _context.Users.Add(user);
-      // _context.SaveChanges();
       _repo.CreateUser(user);
 
       return user;
@@ -91,7 +75,6 @@ namespace WebApi.Services
 
     public UserModel GetById(int id)
     {
-      //var userEntity = _context.Users.FirstOrDefault(x => x.Id == id);
       var userEntity = _repo.GetUser(id);
       if (userEntity == null) return null;
 
@@ -157,93 +140,7 @@ namespace WebApi.Services
       return true;
     }
 
-    //Advert crud operation
-    public IEnumerable<AdvertModel> GetAllAdvert()
-    {
-      var advertList = _repo.GetAdverts().Where(x=>x.AdvertStatus=="live");
-      return advertList.Select(u => MapAdvert(u));
-    }
-
-    public AdvertModel GetAdvertById(int id)
-    {
-      var advertEntity = _repo.GetAdvert(id);
-      if (advertEntity == null) return null;
-
-      return MapAdvert(advertEntity);
-    }
-
-    public IEnumerable<AdvertModel> GetAdvertsById(int userId)
-    {
-      var advertList = _repo.GetAdverts();
-      return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId && (s.AdvertStatus == "live" || s.AdvertStatus == "hiden"));
-    }
-
-    public Advert PostAdvert(Advert advertParam)
-    {
-      _repo.AddAdvert(advertParam);
-      return advertParam;
-
-    }
-
-    public Advert UpdateAdvert(Advert advertParam)
-    {
-      _repo.UpdateAdvert(advertParam);
-      return advertParam;
-    }
-
-    public void Delete(int id)
-    {
-      _repo.DeleteAdvert(id);
-    }
-    private AdvertModel MapAdvert(Advert advert)
-    {
-      return new AdvertModel
-      {
-        Id = advert.Id,
-        AdvertHeadlineText = advert.AdvertHeadlineText,
-        Province = advert.Province,
-        City = advert.City,
-        Price = advert.Price,
-        AdvertDetails = advert.AdvertDetails,
-        UserId = advert.UserId,
-        ReleaseDate=advert.ReleaseDate,
-        AdvertStatus=advert.AdvertStatus
-
-      };
-    }
-
-    //province and city dropdown
-    public IEnumerable<ProvinceModel> GetAllProvince()
-    {
-      var provinceList = _repo.GetProvince();
-      return provinceList.Select(u => MapProvince(u));
-    }
-
-    public IEnumerable<CityModel> GetCities(int provinceId)
-    {
-      var cityList = _repo.GetCities();
-      return cityList.Select(u => MapCity(u)).Where(s => s.ProvinceId == provinceId);
-    }
-
-    private CityModel MapCity(EntityCity entityCity)
-    {
-      return new CityModel
-      {
-        Id = entityCity.Id,
-        City = entityCity.City,
-        ProvinceId = entityCity.ProvinceId
-      };
-    }
-
-    private ProvinceModel MapProvince(EntityProvince entityProvince)
-    {
-      return new ProvinceModel
-      {
-        Id = entityProvince.Id,
-        Province = entityProvince.Province
-      };
-    }
-
+    
 
   }
 }

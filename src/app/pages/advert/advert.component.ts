@@ -3,11 +3,12 @@ import { first } from 'rxjs/operators';
 import { User,Advert } from '@app/_models';
 
 import { UserService, AuthenticationService,AdvertService } from '@app/_services';
+import '@app/shared/advert.css';
 
 @Component({
   selector: 'app-advert',
   templateUrl: './advert.component.html',
-  styleUrls: ['./advert.component.css']
+  styleUrls:['../../shared/advert.css']
 })
 export class AdvertComponent implements OnInit {
   loading = false;

@@ -142,6 +142,7 @@ export class CreateEditAdvertComponent implements OnInit {
     if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
       this.advStatus = "deleted";
       this.advertForm.controls['advertStatus'].setValue(this.advStatus);
+      this.updateAdvert();
       this.router.navigate(['/advert'], { relativeTo: this.route });
     }
   }

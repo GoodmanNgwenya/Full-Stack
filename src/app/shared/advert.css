@@ -2,7 +2,7 @@
 	margin-top: 10px;
 }
 .hotel-rooms{
-	margin-bottom: 40px;
+	margin-bottom: 80px;
 }
 /*---------------------
   Filter Search
@@ -224,6 +224,101 @@ html .ui-button.ui-state-disabled:active {
 
 .room-filter-pagi a:nth-child(2) {
 	background: #8AD144;
+}
+
+.search-btn {
+	width: 14%;
+	float: left;
+}
+
+.search-btn button[type=submit] {
+	font-weight: 400;
+	background: #8AD144;
+	border: none;
+	border-radius: 0 4px 4px 0;
+	cursor: pointer;
+	padding: 42px 40px 43px 31px;
+	display: inline-block;
+	font-size: 18px;
+	color: #fff;
+}
+
+.search-btn button[type=submit] i {
+	margin-right: 10px;
+}
+
+.nice-select {
+	background-color: transparent;
+	border-radius: 0;
+	border-bottom: solid 1px #E7E7E7;
+	border: 0;
+	padding-left: 0;
+}
+
+/*---------------------
+  About
+-----------------------*/
+
+.about-us .about-text-warp {
+	background: #6F6F8A;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 100px 15px;
+}
+
+.about-us .about-text {
+	max-width: 560px;
+}
+
+.about-us .about-text h2 {
+	color: #fff;
+	font-size: 36px;
+	line-height: 48px;
+	font-weight: 500;
+	margin-bottom: 25px;
+}
+
+.about-us .about-text p {
+	color: #ddddde;
+	font-size: 16px;
+	font-weight: 300;
+	margin-bottom: 32px;
+}
+
+.about-us .about-text .site-btn.a-btn {
+	background: #8AD144;
+	border: none;
+	color: #fff;
+}
+
+.about-us .about-img {
+	margin-left: -15px;
+	margin-right: -15px;
+	overflow: hidden;
+}
+
+.about-us .about-img img {
+	display: inline-block;
+	width: 70%;
+	height: 337px;
+}
+
+.about-us .about-img .l-img {
+	height: 399px;
+}
+
+.about-us .about-img .r-img {
+	width: 30%;
+	height: 736px;
+	display: inline-block;
+	margin-top: -337px;
 }
 
 /*---------------------
