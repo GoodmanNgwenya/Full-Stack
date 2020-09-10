@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-import { User } from '@app/_models';
+import { User, ProvinceModel, CityModel } from '@app/_models';
 import { Advert } from '@app/_models/advert';
 
 const users: User[] = [{ id: 1, username: 'test@gmail.com', password: '12345678', firstName: 'Test', lastName: 'Test', role: 'User' },
@@ -14,6 +14,18 @@ let adverts: Advert[] =
     { id: 2, advertHeadlineText: 'Testing two', province: 'Mpumalanga', city: 'Witbank', advertDetails: '', price: 355500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 1 },
     { id: 3, advertHeadlineText: 'Testing Three', province: 'Limpopo', city: 'Polokwane', advertDetails: '', price: 374500.47, releaseDate: '', imageUrl: '', advertStatus: '', userId: 0 }
     ]
+
+let provinces: ProvinceModel[] =
+    [{ id: 1, province: 'Mpumalanga' }, { id: 2, province: 'Gauteng' }, { id: 3, province: 'Western Cape' }, { id: 4, province: 'North West' }, { id: 5, province: 'Free State' }]
+
+let cities: CityModel[] =
+    [{ id: 1, city: 'Nelspruit', provinceId: 1 }, { id: 2, city: 'Witbank', provinceId: 1 }, { id: 3, city: 'Ermelo', provinceId: 1 },
+    { id: 4, city: 'Johannesburg', provinceId: 2 }, { id: 5, city: 'Pretoria', provinceId: 2 }, { id: 6, city: 'Soweto', provinceId: 2 },
+    { id: 7, city: 'Cape Town', provinceId: 3 }, { id: 8, city: 'Stellenbosch', provinceId: 3 }, { id: 9, city: 'Knysna', provinceId: 3 },
+    { id: 10, city: 'Mahikeng', provinceId: 4 }, { id: 11, city: 'Marikana', provinceId: 4 },
+    { id: 12, city: 'Bloemfontein', provinceId: 5 }, { id: 13, city: 'Welkom', provinceId: 5 },
+    ]
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -38,6 +50,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
+
+                //province and city
+                case url.endsWith('/address') && method === 'GET':
+                    return getProvinces();
+                case url.endsWith('/address/city') && method === 'POST':
+                    return getCities();
 
                 //advert
                 case url.endsWith('/adverts/addAdvert') && method === 'POST':
@@ -99,6 +117,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(user);
         }
 
+        //get province and city
+        function getProvinces() {
+            return ok(provinces);
+        }
+        function getCities() {
+            const { provinceId } = body;
+            const listCities = cities.filter(x => x.provinceId === provinceId);
+            return ok(listCities);
+        }
+
         /** 
          * crud operation for advert details
          */
@@ -129,8 +157,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function createAdvert() {
             const advert = body
 
-           // advert.id = adverts.length ? Math.max(...adverts.map(x => x.id)) + 1 : 1;
-           advert.id =newAdvertId();
+            // advert.id = adverts.length ? Math.max(...adverts.map(x => x.id)) + 1 : 1;
+            advert.id = newAdvertId();
             adverts.push(advert);
             localStorage.setItem('adverts', JSON.stringify(adverts));
             return ok();
