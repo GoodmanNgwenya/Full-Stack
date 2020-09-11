@@ -50,6 +50,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
+                case url.match(/\/users\/\d+$/) && method === 'PUT':
+                    return updateUser();
 
                 //province and city
                 case url.endsWith('/address') && method === 'GET':
@@ -94,6 +96,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function register() {
             const user = body
+            user.role = "User";
 
             if (users.find(x => x.username === user.username)) {
                 return error('Username "' + user.username + '" is already taken')
@@ -117,6 +120,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(user);
         }
 
+        function updateUser() {
+            let params = body;
+            let user = users.find(x => x.id === idFromUrl());
+
+            // only update password if entered
+            if (!params.password) {
+                delete params.password;
+            }
+
+            // update and save user
+            Object.assign(user, params);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            return ok();
+        }
+
         //get province and city
         function getProvinces() {
             return ok(provinces);
@@ -133,13 +152,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         //retrieve all advert
         function getAdverts() {
-            if (!isLoggedIn()) return unauthorized();
             return ok(adverts);
         }
 
         //retrieve advert by Id
         function getAdvertById() {
-            if (!isLoggedIn()) return unauthorized();
             const advert = adverts.find(x => x.id == idFromUrl());
             return ok(advert);
         }

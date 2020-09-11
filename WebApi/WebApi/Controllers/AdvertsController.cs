@@ -52,7 +52,7 @@ namespace WebApi.Controllers
         if (ModelState.IsValid)
         {
           _advertService.PostAdvert(model);
-          return Ok();
+          return Ok(model);
         }
         else
         {

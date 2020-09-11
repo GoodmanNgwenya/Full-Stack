@@ -1,6 +1,7 @@
 using Fullstack.Data.DbContexts;
 using Fullstack.Data.Entities;
 using Fullstack.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -73,6 +74,52 @@ namespace WebApi.Services
       return user;
     }
 
+    //update user
+    public void Update(User userParam,string Password)
+    {
+      //var user = _context.Users.Find(userParam.Id);
+      var user = _repo.GetUser(userParam.Id);
+
+      if (user == null)
+        throw new AppException("User not found");
+
+      // update username if it has changed
+      if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
+      {
+        // throw error if the new username is already taken
+        if (_repo.GetUsers().Any(x => x.Username == userParam.Username))
+          throw new AppException("Username " + userParam.Username + " is already taken");
+
+        user.Username = userParam.Username;
+      }
+
+      // update user properties if provided
+      if (!string.IsNullOrWhiteSpace(userParam.FirstName))
+        user.FirstName = userParam.FirstName;
+
+      if (!string.IsNullOrWhiteSpace(userParam.LastName))
+        user.LastName = userParam.LastName;
+
+      if (!string.IsNullOrWhiteSpace(userParam.Username))
+        user.Username = userParam.Username;
+
+      if (!string.IsNullOrWhiteSpace(userParam.Role))
+        user.Role = userParam.Role;
+
+      // update password if provided
+      if (!string.IsNullOrWhiteSpace(Password))
+      {
+        byte[] passwordHash, passwordSalt;
+        CreatePasswordHash(Password, out passwordHash, out passwordSalt);
+
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+      }
+
+      _repo.UpdateUser(user);
+    }
+
+
     public UserModel GetById(int id)
     {
       var userEntity = _repo.GetUser(id);
@@ -93,6 +140,19 @@ namespace WebApi.Services
         Role = user.Role
       };
     }
+
+    private User MapUser(UpdateModel model)
+    {
+      return new User
+      {
+        Id = model.Id,
+        FirstName = model.FirstName,
+        LastName = model.LastName,
+        Username = model.Username,
+        Role = model.Role
+      };
+    }
+
     private string generateJwtToken(User user)
     {
       // generate token that is valid for 7 days

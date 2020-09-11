@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  // selector: 'app-create-edit-advert',
   templateUrl: './create-edit-advert.component.html',
   providers: [DatePipe]
 })

@@ -2,6 +2,7 @@ using Fullstack.Data.Entities;
 using Fullstack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using WebApi.Helpers;
 using WebApi.Services;
 
 namespace WebApi.Controllers
@@ -61,10 +62,39 @@ namespace WebApi.Controllers
       }
     }
 
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, [FromBody] UpdateModel model)
+    {
+      var user = MapUser(model);
+      user.Id = id;
+
+      try
+      {
+        _userService.Update(user,model.Password);
+        return Ok();
+      }
+      catch (AppException ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
+
+
     private User Map(RegisterModel model)
     {
       return new User
       {
+        FirstName = model.FirstName,
+        LastName = model.LastName,
+        Username = model.Username,
+        Role = model.Role
+      };
+    }
+    private User MapUser(UpdateModel model)
+    {
+      return new User
+      {
+        Id = model.Id,
         FirstName = model.FirstName,
         LastName = model.LastName,
         Username = model.Username,
