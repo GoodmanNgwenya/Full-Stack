@@ -16,7 +16,7 @@ export class HomeComponent {
   constructor(private advertService: AdvertService) { }
 
   ngOnInit() {
-    this.advertService.getAll()
+    this.advertService.getAllAdvert()
       .subscribe({
         next: adverts => {
           this.adverts = adverts;

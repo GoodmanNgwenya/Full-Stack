@@ -22,7 +22,7 @@ export class AdvertComponent implements OnInit {
   }
   ngOnInit() {
     this.loading = true;
-    this.userService.getAll().pipe(first()).subscribe(users => {
+    this.userService.getAllUsers().pipe(first()).subscribe(users => {
       this.loading = false;
       this.users = users;
     });
@@ -37,7 +37,7 @@ export class AdvertComponent implements OnInit {
      /** 
      * Return all advert posted by a specific user 
      */
-    this.advertService.getAdvertsById(this.currentUser.id)
+    this.advertService.getAdvertsByUserId(this.currentUser.id)
       .subscribe({
         next: adverts => {
           this.adverts = adverts;

@@ -31,9 +31,9 @@ namespace WebApi.Controllers
     }
 
     [HttpPost]
-    public IActionResult GetAdvertsById(AdvertModel model)
+    public IActionResult GetAdvertsByUserId(AdvertModel model)
     {
-      var response = _advertService.GetAdvertsById(model.UserId);
+      var response = _advertService.GetAdvertsByUserId(model.UserId);
 
       if (response == null)
         return BadRequest(new { message = "No avdert" });

@@ -2,27 +2,39 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Advert } from '@app/_models/advert';
 import { environment } from '@environments/environment';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { ProvinceModel } from '@app/_models/province';
 import { CityModel } from '@app/_models/city';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdvertService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private messageService: MessageService) { }
 
-  getAll() {
+  //get all available advert
+  getAllAdvert(): Observable<Advert[]> {
     return this.http.get<Advert[]>(`${environment.apiUrl}/adverts`)
+      .pipe(
+        tap(_ => this.log('fetched adverts')),
+        catchError(this.handleError<Advert[]>('getAdvert', []))
+      );
   }
 
-  getById(id: number) {
-    return this.http.get<Advert>(`${environment.apiUrl}/adverts/${id}`);
+  //get advert by Id 
+  getAdvertById(id: number): Observable<Advert> {
+    return this.http.get<Advert>(`${environment.apiUrl}/adverts/${id}`)
+      .pipe(
+        tap(_ => this.log(`fetched advert id=${id}`)),
+        catchError(this.handleError<Advert>(`getAdvert id=${id}`))
+      );
   }
 
-  getAdvertsById(userId: number): Observable<Advert[]> {
+  //get advert by user Id
+  getAdvertsByUserId(userId: number): Observable<Advert[]> {
     if (userId === 0) {
       of(this.initializeAdvert());
     }
@@ -32,26 +44,43 @@ export class AdvertService {
       }));
   }
 
-  create(advert: Advert) {
-    return this.http.post(`${environment.apiUrl}/adverts/addAdvert`, advert);
+  //add or post new advert
+  addAdvert(advert: Advert) {
+    return this.http.post(`${environment.apiUrl}/adverts/addAdvert`, advert)
+      .pipe(
+        tap(data => this.log('addAdvert: ' + JSON.stringify(data))),
+        catchError(this.handleError<Advert>('addAdvert'))
+      );
   }
 
-  update(id: number, advert:Advert) {
-    return this.http.put(`${environment.apiUrl}/adverts/${id}`, advert);
+  //update advert
+  updateAdvert(id: number, advert: Advert) {
+    return this.http.put(`${environment.apiUrl}/adverts/${id}`, advert)
+      .pipe(
+        //return advert and update
+        map(() => advert,
+          catchError(this.handleError<Advert>('updateAdvert')))
+      );
   }
 
-  delete(id: number) {
-    return this.http.delete(`${environment.apiUrl}/adverts/${id}`);
+  //remove advert by id from the list
+  deleteAdvert(id: number) {
+    return this.http.delete(`${environment.apiUrl}/adverts/${id}`)
+      .pipe(
+        tap(_ => this.log(`deleted advert id=${id}`)),
+        catchError(this.handleError<Advert>('deleteAdvert'))
+      );
   }
 
-  getAllProvince() {
+  //get all available province
+  getAllProvince(): Observable<ProvinceModel[]> {
     return this.http.get<ProvinceModel[]>(`${environment.apiUrl}/address`)
+      .pipe(map(province => {
+        return province;
+      }))
   }
 
-  // getCity(ProvinceId: number): Observable<CityModel[]>  
-  // {  
-  //   return this.http.get<CityModel[]>(`${environment.apiUrl}/address` + '/address?ProvinceId='+ProvinceId);  
-  // } 
+  //get all cities based on selected province
   getCity(provinceId: number): Observable<CityModel[]> {
     if (provinceId === 0) {
       of(this.initializeCity());
@@ -61,6 +90,25 @@ export class AdvertService {
         return city;
       }));
   }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  /** Log an advert service message with the MessageService */
+  private log(message: string) {
+    this.messageService.add(`AdvertService: ${message}`);
+  }
+
 
   private initializeAdvert(): Advert {
     // Return an initialized object
@@ -83,7 +131,7 @@ export class AdvertService {
     return {
       id: 0,
       city: null,
-      provinceId:0
+      provinceId: 0
     };
   }
 

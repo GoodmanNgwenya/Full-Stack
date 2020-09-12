@@ -35,17 +35,17 @@ export class ManageAccountComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(1), Validators.pattern(this.removeWhiteSpace)]],
       lastName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(this.removeWhiteSpace)]],
       username: ['', [Validators.email, Validators.minLength(6)]],
+      OldPassword:['',[ Validators.minLength(8)]],
       password: ['', [ Validators.minLength(8)]],
       confirmPassword: ['']
     }, {
       validator: MustMatch('password', 'confirmPassword')
     });
     
-    this.userService.getById(this.currentUser.id)
+    this.userService.getUserById(this.currentUser.id)
     .pipe(first())
       .subscribe(x => this.userForm.patchValue(x));
     
-      
   }
 
   
@@ -65,7 +65,7 @@ export class ManageAccountComponent implements OnInit {
   }
 
   private updateUser() {
-    this.userService.update(this.currentUser.id, this.userForm.value)
+    this.userService.updateUser(this.currentUser.id, this.userForm.value)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -79,4 +79,5 @@ export class ManageAccountComponent implements OnInit {
         }
       });
   }
+  
 }

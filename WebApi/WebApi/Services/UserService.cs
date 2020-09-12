@@ -75,7 +75,7 @@ namespace WebApi.Services
     }
 
     //update user
-    public void Update(User userParam,string Password)
+    public void Update(User userParam,string Password=null)
     {
       //var user = _context.Users.Find(userParam.Id);
       var user = _repo.GetUser(userParam.Id);
@@ -141,7 +141,7 @@ namespace WebApi.Services
       };
     }
 
-    private User MapUser(UpdateModel model)
+    private User MapUser(UpdateAdvertModel model)
     {
       return new User
       {

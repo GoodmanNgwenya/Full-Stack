@@ -55,7 +55,7 @@ export class CreateEditAdvertComponent implements OnInit {
 
     // Read the advert Id from the route parameter
     if (!this.isAddMode) {
-      this.advertService.getById(this.id)
+      this.advertService.getAdvertById(this.id)
         .pipe(first())
         .subscribe(x => this.advertForm.patchValue(x));
     }
@@ -106,7 +106,7 @@ export class CreateEditAdvertComponent implements OnInit {
     this.advertForm.controls['advertStatus'].setValue(this.advStatus);
     let currUser = JSON.parse(localStorage.getItem("currentUser"));
     this.advertForm.controls['userId'].setValue(currUser["id"]);
-    this.advertService.create(this.advertForm.value)
+    this.advertService.addAdvert(this.advertForm.value)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -122,7 +122,7 @@ export class CreateEditAdvertComponent implements OnInit {
 
   //update advert mthod
   private updateAdvert() {
-    this.advertService.update(this.id, this.advertForm.value)
+    this.advertService.updateAdvert(this.id, this.advertForm.value)
       .pipe(first())
       .subscribe({
         next: () => {
@@ -149,7 +149,7 @@ export class CreateEditAdvertComponent implements OnInit {
   //remove advert from the list and on datadase permanently 
   deleteAdvert(): void {
     if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
-      this.advertService.delete(this.id)
+      this.advertService.deleteAdvert(this.id)
         .pipe(first())
         .subscribe({
           next: () => {

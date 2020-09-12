@@ -34,7 +34,7 @@ export class AdvertDetailsComponent implements OnInit {
       advertStatus: ''
     });
 
-    this.advertService.getById(this.id)
+    this.advertService.getAdvertById(this.id)
       .subscribe(x => this.advertForm.patchValue(x));
 
 

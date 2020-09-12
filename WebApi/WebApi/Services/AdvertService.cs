@@ -30,7 +30,7 @@ namespace WebApi.Services
       return MapAdvert(advertEntity);
     }
 
-    public List<AdvertModel> GetAdvertsById(int userId)
+    public List<AdvertModel> GetAdvertsByUserId(int userId)
     {
       var advertList = _repo.GetAdverts();
       return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId && (s.AdvertStatus == "live" || s.AdvertStatus == "hiden")).ToList();
