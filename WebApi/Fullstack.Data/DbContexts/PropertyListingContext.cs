@@ -13,5 +13,12 @@ namespace Fullstack.Data.DbContexts
     public DbSet<Advert> Adverts { get; set; }
     public DbSet<City> Cities { get; set; }
     public DbSet<Province> Provinces { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      //Configure Column
+      modelBuilder.Entity<Advert>()
+                  .Property(p => p.Price)
+                  .HasColumnType("decimal(18, 2)");
+    }
   }
 }

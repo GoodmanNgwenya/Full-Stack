@@ -11,7 +11,7 @@ namespace Fullstack.ViewModels
     public string AdvertHeadlineText { get; set; }
     public string Province { get; set; }
     public string City { get; set; }
-    public double Price { get; set; }
+    public decimal Price { get; set; }
     public string AdvertDetails { get; set; }
     public string ReleaseDate { get; set; }
     public byte[] ImageUrl { get; set; }

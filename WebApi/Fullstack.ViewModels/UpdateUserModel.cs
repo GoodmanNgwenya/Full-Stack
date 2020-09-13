@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fullstack.ViewModels
 {
-  public class UpdateAdvertModel
+  public class UpdateUserModel
   {
     public int Id { get; set; }
     public string FirstName { get; set; }

@@ -4,14 +4,16 @@ using Fullstack.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fullstack.Data.Migrations
 {
     [DbContext(typeof(PropertyListingContext))]
-    partial class PropertyListingContextModelSnapshot : ModelSnapshot
+    [Migration("20200913190156_decimalMigration")]
+    partial class decimalMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

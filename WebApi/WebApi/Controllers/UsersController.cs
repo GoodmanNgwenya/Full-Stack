@@ -63,7 +63,7 @@ namespace WebApi.Controllers
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] UpdateAdvertModel model)
+    public IActionResult Update(int id, [FromBody] UpdateUserModel model)
     {
       var user = MapUser(model);
       user.Id = id;
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         Role = model.Role
       };
     }
-    private User MapUser(UpdateAdvertModel model)
+    private User MapUser(UpdateUserModel model)
     {
       return new User
       {

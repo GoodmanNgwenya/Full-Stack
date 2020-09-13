@@ -141,7 +141,7 @@ namespace WebApi.Services
       };
     }
 
-    private User MapUser(UpdateAdvertModel model)
+    private User MapUser(UpdateUserModel model)
     {
       return new User
       {
