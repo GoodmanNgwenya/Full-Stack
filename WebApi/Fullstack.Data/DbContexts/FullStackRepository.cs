@@ -71,6 +71,7 @@ namespace Fullstack.Data.DbContexts
       {
         if (_context != null)
         {
+          advert.AdvertStatus = "live";
           _context.Add(advert);
           _context.SaveChanges();
           return advert;
@@ -110,7 +111,8 @@ namespace Fullstack.Data.DbContexts
     public void DeleteAdvert(int id)
     {
       var entity = _context.Adverts.Find(id);
-      _context.Adverts.Remove(entity);
+      entity.AdvertStatus = "deleted";
+      _context.Adverts.Update(entity);
       _context.SaveChanges();
     }
 

@@ -10,7 +10,7 @@ namespace WebApi.Services
     List<UserModel> GetAll();
     UserModel GetById(int id);
     User CreateUser(User user,string password);
-    void Update(User userParam, string Password);
+    void Update(User userParam,string oldPassword, string newPassword);
 
   }
 }

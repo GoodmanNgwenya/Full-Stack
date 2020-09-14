@@ -6,4 +6,5 @@
     lastName: string;
     role:string;
     token?: string;
+    OldPassword?: string;
 }

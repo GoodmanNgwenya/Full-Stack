@@ -70,7 +70,7 @@ namespace WebApi.Controllers
 
       try
       {
-        _userService.Update(user,model.Password);
+        _userService.Update(user,model.OldPassword,model.Password);
         return Ok();
       }
       catch (AppException ex)

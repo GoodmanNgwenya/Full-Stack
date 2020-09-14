@@ -1,6 +1,7 @@
 using Fullstack.Data.DbContexts;
 using Fullstack.Data.Entities;
 using Fullstack.ViewModels;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -75,7 +76,7 @@ namespace WebApi.Services
     }
 
     //update user
-    public void Update(User userParam,string Password=null)
+    public void Update(User userParam,string oldPassword,string newPassword=null)
     {
       //var user = _context.Users.Find(userParam.Id);
       var user = _repo.GetUser(userParam.Id);
@@ -107,13 +108,20 @@ namespace WebApi.Services
         user.Role = userParam.Role;
 
       // update password if provided
-      if (!string.IsNullOrWhiteSpace(Password))
+      if (!string.IsNullOrWhiteSpace(newPassword))
       {
-        byte[] passwordHash, passwordSalt;
-        CreatePasswordHash(Password, out passwordHash, out passwordSalt);
+        if (!VerifyPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+        {
+          byte[] passwordHash, passwordSalt;
+          CreatePasswordHash(newPassword, out passwordHash, out passwordSalt);
 
-        user.PasswordHash = passwordHash;
-        user.PasswordSalt = passwordSalt;
+          user.PasswordHash = passwordHash;
+          user.PasswordSalt = passwordSalt;
+        }
+        else
+        {
+          throw new AppException("Password already exist,try a new password");
+        }
       }
 
       _repo.UpdateUser(user);

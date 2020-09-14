@@ -124,6 +124,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let params = body;
             let user = users.find(x => x.id === idFromUrl());
 
+            if (params.OldPassword == user.password) {
+
+                return error("Password alread exist, try another one");
+            }
+
             // only update password if entered
             if (!params.password) {
                 delete params.password;

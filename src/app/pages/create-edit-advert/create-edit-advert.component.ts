@@ -29,7 +29,6 @@ export class CreateEditAdvertComponent implements OnInit {
     private router: Router, private datePipe: DatePipe) {
 
     this.currentDate = this.datePipe.transform(this.currentDate, 'dd-MM-yyyy');
-    this.advStatus = "live";
   }
 
 
@@ -103,7 +102,6 @@ export class CreateEditAdvertComponent implements OnInit {
 
   //Add new advert method
   private createAdvert() {
-    this.advertForm.controls['advertStatus'].setValue(this.advStatus);
     let currUser = JSON.parse(localStorage.getItem("currentUser"));
     this.advertForm.controls['userId'].setValue(currUser["id"]);
     this.advertService.addAdvert(this.advertForm.value)
@@ -127,7 +125,7 @@ export class CreateEditAdvertComponent implements OnInit {
       .subscribe({
         next: () => {
           alert('Advert updated successfuly');
-          this.router.navigate(['/advert'], { relativeTo: this.route });
+          this.router.navigate(['/advert']);
         },
         error: error => {
           alert(error);
@@ -137,14 +135,14 @@ export class CreateEditAdvertComponent implements OnInit {
   }
 
   //remove advert from the list
-  removeAdvert(): void {
-    if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
-      this.advStatus = "deleted";
-      this.advertForm.controls['advertStatus'].setValue(this.advStatus);
-      this.updateAdvert();
-      this.router.navigate(['/advert'], { relativeTo: this.route });
-    }
-  }
+  // removeAdvert(): void {
+  //   if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
+  //     this.advStatus = "deleted";
+  //     this.advertForm.controls['advertStatus'].setValue(this.advStatus);
+  //     this.updateAdvert();
+  //     this.router.navigate(['/advert'], { relativeTo: this.route });
+  //   }
+  // }
 
   //remove advert from the list and on datadase permanently 
   deleteAdvert(): void {
