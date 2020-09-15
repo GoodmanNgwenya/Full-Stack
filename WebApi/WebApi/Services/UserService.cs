@@ -149,17 +149,7 @@ namespace WebApi.Services
       };
     }
 
-    private User MapUser(UpdateUserModel model)
-    {
-      return new User
-      {
-        Id = model.Id,
-        FirstName = model.FirstName,
-        LastName = model.LastName,
-        Username = model.Username,
-        Role = model.Role
-      };
-    }
+   
 
     private string generateJwtToken(User user)
     {

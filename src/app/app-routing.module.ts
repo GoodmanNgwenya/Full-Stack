@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home';
@@ -7,7 +7,7 @@ import { AuthGuard } from './_helpers';
 import { AdvertComponent } from './pages/advert/advert.component';
 import { RegisterComponent } from './register';
 import { AdvertEditGuard } from './pages/advert-edit.guard';
-import { CreateEditAdvertComponent, AdvertDetailsComponent, ManageAccountComponent } from './pages';
+import { CreateEditAdvertComponent, AdvertDetailsComponent, ManageAccountComponent, SellerProfileComponent } from './pages';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -30,7 +30,8 @@ const childroutes: Routes = [
   { path: 'editAdvert', component: CreateEditAdvertComponent },
   { path: 'editAdvert/:id/edit', component: CreateEditAdvertComponent },
   { path: 'viewAdvert/:id/view', component: AdvertDetailsComponent },
-  { path: 'manageUser', component: ManageAccountComponent }
+  { path: 'manageUser', component: ManageAccountComponent },
+  { path: 'sellerProfile', component: SellerProfileComponent }
 ];
 
 @NgModule({
@@ -42,7 +43,8 @@ const childroutes: Routes = [
   ],
   declarations: [
     CreateEditAdvertComponent,
-    ManageAccountComponent
+    ManageAccountComponent,
+    SellerProfileComponent
   ],
   exports: [RouterModule]
 })

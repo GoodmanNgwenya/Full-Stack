@@ -7,4 +7,5 @@
     role:string;
     token?: string;
     OldPassword?: string;
+    phoneNumber?: string;
 }

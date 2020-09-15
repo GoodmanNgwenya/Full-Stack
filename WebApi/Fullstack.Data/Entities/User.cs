@@ -14,5 +14,6 @@ namespace Fullstack.Data.Entities
     public byte[] PasswordSalt { get; set; }
     public string Role { get; set; }
     public ICollection<Advert> adverts { get; set; }
+    public ICollection<Seller> seller { get; set; }
   }
 }

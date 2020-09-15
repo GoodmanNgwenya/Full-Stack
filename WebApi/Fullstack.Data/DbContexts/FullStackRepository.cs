@@ -1,8 +1,10 @@
 using Fullstack.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Fullstack.Data.DbContexts
 {
@@ -49,7 +51,7 @@ namespace Fullstack.Data.DbContexts
     public void DeleteUser(int id)
     {
       var entity = _context.Users.Find(id);
-      _context.Users.Remove(entity); 
+      _context.Users.Remove(entity);
       _context.SaveChanges();
     }
 
@@ -129,6 +131,48 @@ namespace Fullstack.Data.DbContexts
     public City GetCity(int id)
     {
       return _context.Cities.Find(id);
+    }
+
+
+    //seller crud operstion
+    public List<Seller> GetSellers()
+    {
+      return _context.Sellers.ToList();
+
+    }
+    public Seller GetSeller(int id)
+    {
+      return _context.Sellers.FirstOrDefault(x => x.UserId == id);
+    }
+
+    public Seller UpdateSeller(Seller seller)
+    {
+      try
+      {
+        var existing = _context.Sellers.FirstOrDefault(em => em.UserId == seller.UserId);
+        if (existing == null)
+        {
+          _context.Add(seller);
+          _context.SaveChanges();
+          return seller;
+        }
+        else
+        {
+          seller.Id = existing.Id;
+
+          _context.Entry(existing).State = EntityState.Detached;
+          _context.Sellers.Attach(seller);
+          _context.Entry(seller).State = EntityState.Modified;
+          _context.SaveChanges();
+          return seller;
+
+        }
+        
+      }
+      catch (Exception ex)
+      {
+        return null;
+      }
     }
 
 

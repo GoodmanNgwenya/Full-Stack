@@ -204,6 +204,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             localStorage.setItem('adverts', JSON.stringify(adverts));
             return ok();
         }
+        
+        //seller crud operation
+        function updateSeller() {
+            let params = body;
+            let user = users.find(x => x.id === idFromUrl());
+
+            // update and save seller
+            Object.assign(user, params);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            return ok();
+        }
 
 
         // helper functions

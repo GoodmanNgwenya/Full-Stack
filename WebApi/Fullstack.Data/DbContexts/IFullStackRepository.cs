@@ -23,5 +23,10 @@ namespace Fullstack.Data.DbContexts
     List<City> GetCities();
     City GetCity(int id);
 
+    //seller
+    List<Seller> GetSellers();
+    Seller GetSeller(int id);
+    Seller UpdateSeller(Seller seller);
+
   }
 }
