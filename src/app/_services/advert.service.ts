@@ -44,15 +44,19 @@ export class AdvertService {
     if (userId === 0) {
       of(this.initializeAdvert());
     }
-    return this.http.post<Advert[]>(`${environment.apiUrl}/adverts`, { userId })
-      .pipe(map(advert => {
-        return advert;
-      }));
+    return this.http.get<Advert[]>(`${environment.apiUrl}/adverts/${userId}/adverts`)
+      .pipe(
+        map((data: Advert[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      )
   }
 
   //add or post new advert
   addAdvert(advert: Advert): Observable<Advert> {
-    return this.http.post(`${environment.apiUrl}/adverts/addAdvert`, advert)
+    return this.http.post(`${environment.apiUrl}/adverts`, advert)
       .pipe(
         map((data: Advert) => {
           return data;
@@ -98,10 +102,14 @@ export class AdvertService {
     if (provinceId === 0) {
       of(this.initializeCity());
     }
-    return this.http.post<CityModel[]>(`${environment.apiUrl}/address/city`, { provinceId })
-      .pipe(map(city => {
-        return city;
-      }));
+    return this.http.get<CityModel[]>(`${environment.apiUrl}/address/${provinceId}/cities`)
+      .pipe(
+        map((data: CityModel[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      )
   }
 
 

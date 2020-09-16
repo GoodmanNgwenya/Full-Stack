@@ -32,10 +32,10 @@ namespace WebApi.Controllers
       return Ok(advert);
     }
 
-    [HttpPost("city")]
-    public IActionResult GetCitiesById(CityModel model)
+    [HttpGet("{provinceId}/cities")]
+    public IActionResult GetCitiesById(int provinceId)
     {
-      var response = _advertService.GetCities(model.ProvinceId);
+      var response = _advertService.GetCities(provinceId);
 
       if (response == null)
         return BadRequest(new { message = "No avdert" });

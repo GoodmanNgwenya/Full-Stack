@@ -1,4 +1,3 @@
-using Fullstack.Data.Entities;
 using Fullstack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Helpers;
@@ -23,17 +22,23 @@ namespace WebApi.Controllers
       var adverts = _advertService.GetAllAdvert();
       return Ok(adverts);
     }
+
     [HttpGet("{id}")]
-    public IActionResult GetAdvertById(int id)
+    public IActionResult GetById(int id)
     {
       var advert = _advertService.GetAdvertById(id);
       return Ok(advert);
     }
 
-    [HttpPost]
-    public IActionResult GetAdvertsByUserId(AdvertModel model)
+    [Authorize]
+    [HttpGet("{userId}/adverts")]
+    public IActionResult GetAdvertsByUserId(int userId)
     {
-      var response = _advertService.GetAdvertsByUserId(model.UserId);
+      var user = HttpContext.Items["User"] as UserModel;
+      if (user.Id != userId)
+        return Forbid();
+
+      var response = _advertService.GetAdvertsByUserId(userId);
 
       if (response == null)
         return BadRequest(new { message = "No avdert" });
@@ -41,12 +46,10 @@ namespace WebApi.Controllers
       return Ok(response);
     }
 
-    [HttpPost("addAdvert")]
-    public IActionResult AddAdvert([FromBody] AdvertModel model)
+    [HttpPost]
+    public IActionResult Post([FromBody] AdvertModel model)
     {
-      // map model to entity and set id
-      //var advert = MapAdvert(model);
-
+    
       try
       {
         if (ModelState.IsValid)
@@ -69,7 +72,7 @@ namespace WebApi.Controllers
 
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] AdvertModel model)
+    public IActionResult Put(int id, [FromBody] AdvertModel model)
     {
       model.Id = id;
 

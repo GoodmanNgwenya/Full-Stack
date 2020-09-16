@@ -40,6 +40,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             .pipe(dematerialize());
 
         function handleRoute() {
+            var req = { url: "/address/cities" };
             switch (true) {
                 //users
                 case url.endsWith('/users/authenticate') && method === 'POST':
@@ -56,18 +57,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 //province and city
                 case url.endsWith('/address') && method === 'GET':
                     return getProvinces();
-                case url.endsWith('/address/city') && method === 'POST':
+                // case url.endsWith('/address/city') && method === 'POST':
+                //     return getCities();
+                
+                case req.url.match(/\/address\/\d+$/) && method === 'GET':
                     return getCities();
+                    
 
                 //advert
-                case url.endsWith('/adverts/addAdvert') && method === 'POST':
+                case url.endsWith('/adverts') && method === 'POST':
                     return createAdvert();
                 case url.endsWith('/adverts') && method === 'GET':
                     return getAdverts();
                 case url.match(/\/adverts\/\d+$/) && method === 'GET':
                     return getAdvertById();
-                case url.endsWith('/adverts') && method === 'POST':
-                    return getAdvertsById();
+                case url.match(/\/adverts\/\d+$/) && method === 'GET':
+                    return getAdvertsByUserId();
                 case url.match(/\/adverts\/\d+$/) && method === 'PUT':
                     return updateAdvert();
                 case url.match(/\/adverts\/\d+$/) && method === 'DELETE':
@@ -167,7 +172,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         //retrieve all advert posted by a specific user by ID
-        function getAdvertsById() {
+        function getAdvertsByUserId() {
             const { userId } = body;
 
             if (!isLoggedIn()) return unauthorized();
@@ -204,7 +209,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             localStorage.setItem('adverts', JSON.stringify(adverts));
             return ok();
         }
-        
+
         //seller crud operation
         function updateSeller() {
             let params = body;
