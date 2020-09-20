@@ -3,8 +3,6 @@
     <a class="navbar-brand" href="#">PROPERTY LISTING</a>
     <div class="navbar-nav mr-auto">
         <a class="nav-item nav-link" [routerLink]="['/home']"><span style="color:white">HOME</span></a>
-        <a class="nav-item nav-link"><span style="color:white">HOME FOR SALE</span></a>
-        <a class="nav-item nav-link"><span style="color:white">SELL A HOUSE</span></a>
     </div>
 
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -41,22 +39,10 @@
             <a class="nav-link" [routerLink]="['/advert']">My Adverts</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link">My Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link">Buy a House</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link">Sell a house</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" [routerLink]="['/manageUser']">Manage my Account</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" [routerLink]="['/sellerProfile']">My Seller Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link">Favourite Houses</a>
         </li>
 
     </ul>
@@ -73,6 +59,7 @@
 
 <!-- main app container -->
 <div class="container">
+    <alert></alert>
     <router-outlet></router-outlet>
 </div>
 

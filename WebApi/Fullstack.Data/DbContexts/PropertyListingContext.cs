@@ -1,3 +1,4 @@
+using Fullstack.Data.Configuration;
 using Fullstack.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,10 @@ namespace Fullstack.Data.DbContexts
     public DbSet<Seller> Sellers { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      //Configure Column
-      modelBuilder.Entity<Advert>()
-                  .Property(p => p.Price)
-                  .HasColumnType("decimal(18, 2)");
+      modelBuilder.ApplyConfiguration(new ProvinceConfiguration());
+      modelBuilder.ApplyConfiguration(new CityConfiguration());
+      //modelBuilder.ApplyConfiguration(new AdvertConfiguration());
+      //modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
   }
 }

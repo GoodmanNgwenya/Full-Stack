@@ -1,9 +1,11 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '@app/shared/confirmation-dialog/confirmation-dialog.component';
 import { User } from '@app/_models';
-import { AuthenticationService, UserService } from '@app/_services';
-import { SellerService } from '@app/_services/seller.service';
+import { AlertService, AuthenticationService, UserService, SellerService } from '@app/_services';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -14,18 +16,16 @@ export class SellerProfileComponent implements OnInit {
   sellerForm: FormGroup;
   loading = false;
   submitted = false;
-  isDisabled = true;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService,
-    private authenticationService: AuthenticationService,private router: Router,private route: ActivatedRoute,
-    private sellerService: SellerService) {
+    private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private sellerService: SellerService, private alertService: AlertService) {
     this.currentUser = this.authenticationService.currentUserValue;
   }
-  
+
   ngOnInit(): void {
     this.sellerForm = this.formBuilder.group({
-      // firstName: [{ value: '', disabled: this.isDisabled }, [Validators.required, Validators.minLength(1)]],
-      // lastName: [{ value: '', disabled: this.isDisabled }, [Validators.required, Validators.minLength(3)]],
       firstName: ['', [Validators.required, Validators.minLength(1)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(100)]],
@@ -48,6 +48,7 @@ export class SellerProfileComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    this.alertService.clear();
     if (this.sellerForm.invalid) {
       return;
     }
@@ -56,23 +57,37 @@ export class SellerProfileComponent implements OnInit {
     this.updateSeller();
   }
 
+
+
   private updateSeller() {
-    if (confirm(`Are you sure you want to make some changes on your profile?`)) {
-      this.sellerService.updateSeller(this.currentUser.id, this.sellerForm.value)
-        .pipe(first())
-        .subscribe({
-          next: () => {
-            alert('Seller profile updated successful');
-            this.router.navigate(['/sellerProfile'], { relativeTo: this.route });
-            this.loading = false;
-          },
-          error: error => {
-            alert(error);
-            this.loading = false;
-          }
-        });
-    }
-    this.loading = false;
+
+    const confirmDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirm Update User',
+        message: 'Are you sure you want to make some changes on your profile?'
+      }
+    });
+    confirmDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.sellerService.updateSeller(this.currentUser.id, this.sellerForm.value)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.alertService.success('Seller profile updated successful', { keepAfterRouteChange: true });
+              this.router.navigate(['/sellerProfile'], { relativeTo: this.route });
+              this.loading = false;
+            },
+            error: error => {
+              this.alertService.error(error);
+              this.loading = false;
+            }
+          });
+      }
+      else {
+        this.loading = false;
+      }
+    });
+
   }
 
 }

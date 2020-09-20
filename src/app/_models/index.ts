@@ -3,3 +3,4 @@ export * from './advert';
 export * from './province';
 export * from './city';
 export * from './seller';
+export * from './alert';

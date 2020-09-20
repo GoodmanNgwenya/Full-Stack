@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
-import { AdvertService } from '@app/_services';
+import { AdvertService, AlertService } from '@app/_services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { ProvinceModel, CityModel } from '@app/_models';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   templateUrl: './create-edit-advert.component.html',
@@ -25,8 +27,8 @@ export class CreateEditAdvertComponent implements OnInit {
   advStatus: string;
 
   constructor(private fb: FormBuilder, private advertService: AdvertService,
-    private route: ActivatedRoute,
-    private router: Router, private datePipe: DatePipe) {
+    private route: ActivatedRoute, private alertService: AlertService,
+    private router: Router, private datePipe: DatePipe, public dialog: MatDialog) {
 
     this.currentDate = this.datePipe.transform(this.currentDate, 'dd-MM-yyyy');
   }
@@ -86,6 +88,7 @@ export class CreateEditAdvertComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    this.alertService.clear();
     // stop here if form is invalid
     if (this.advertForm.invalid) {
       return;
@@ -108,11 +111,11 @@ export class CreateEditAdvertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert('Advert added successfuly');
+          this.alertService.success('Advert added successfuly', { keepAfterRouteChange: true });
           this.router.navigate(['/advert'], { relativeTo: this.route });
         },
         error: error => {
-          alert(error);
+          this.alertService.error(error);
           this.loading = false;
         }
       });
@@ -124,52 +127,61 @@ export class CreateEditAdvertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          alert('Advert updated successfuly');
+          this.alertService.success(`Advert with header ( ${this.advertForm.value.advertHeadlineText} ) updated successfuly`, { keepAfterRouteChange: true });
           this.router.navigate(['/advert']);
         },
         error: error => {
-          alert(error);
+          this.alertService.error(error);
           this.loading = false;
         }
       });
   }
 
-  //remove advert from the list
-  // removeAdvert(): void {
-  //   if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
-  //     this.advStatus = "deleted";
-  //     this.advertForm.controls['advertStatus'].setValue(this.advStatus);
-  //     this.updateAdvert();
-  //     this.router.navigate(['/advert'], { relativeTo: this.route });
-  //   }
-  // }
-
   //remove advert from the list and on datadase permanently 
   deleteAdvert(): void {
-    if (confirm(`Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`)) {
-      this.advertService.deleteAdvert(this.id)
-        .pipe(first())
-        .subscribe({
-          next: () => {
-            alert('Advert deleted successfuly');
-            this.router.navigate(['/advert'], { relativeTo: this.route });
-          },
-          error: error => {
-            alert(error);
-            this.loading = false;
-          }
-        });
-    }
+
+    const confirmDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirm Remove Advert',
+        message: `Are you sure you want to remove: ${this.advertForm.value.advertHeadlineText}?`
+      }
+    });
+    confirmDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.advertService.deleteAdvert(this.id)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.alertService.success(`Advert with header ( ${this.advertForm.value.advertHeadlineText} ) deleted successfuly`, { keepAfterRouteChange: true });
+              this.router.navigate(['/advert'], { relativeTo: this.route });
+            },
+            error: error => {
+              this.alertService.error(error);
+              this.loading = false;
+            }
+          });
+      }
+      else {
+        this.loading = false;
+      }
+    });
   }
 
   //hide the advert
   hideAdvert(): void {
-    if (confirm(`Are you sure you want to hide the advert with title: ${this.advertForm.value.advertHeadlineText}?`)) {
-      this.advStatus = "hiden";
-      this.advertForm.controls['advertStatus'].setValue(this.advStatus);
-      this.updateAdvert();
-    }
+    const confirmDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirm Hiding Advert',
+        message: `Are you sure you want to hide the advert with title: ${this.advertForm.value.advertHeadlineText}?`
+      }
+    });
+    confirmDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.advStatus = "hiden";
+        this.advertForm.controls['advertStatus'].setValue(this.advStatus);
+        this.updateAdvert();
+      }
+    });
   }
-
 
 }

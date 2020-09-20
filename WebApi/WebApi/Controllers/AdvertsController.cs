@@ -46,13 +46,14 @@ namespace WebApi.Controllers
       return Ok(response);
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult Post([FromBody] AdvertModel model)
     {
     
       try
       {
-        if (ModelState.IsValid)
+        if(_advertService.IsValid(model))
         {
           _advertService.PostAdvert(model);
           return Ok(model);
@@ -70,7 +71,7 @@ namespace WebApi.Controllers
       }
     }
 
-
+    [Authorize]
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] AdvertModel model)
     {
@@ -78,10 +79,10 @@ namespace WebApi.Controllers
 
       try
       {
-        if (ModelState.IsValid)
+        if (_advertService.IsValid(model))
         {
           _advertService.UpdateAdvert(model);
-          return Ok();
+          return Ok(model);
         }
         else
         {

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService, AuthenticationService } from '@app/_services';
+import { UserService, AuthenticationService, AlertService } from '@app/_services';
 import { MustMatch } from '@app/shared/validate-password';
 import { first } from 'rxjs/operators';
 import { User } from '@app/_models';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   templateUrl: './manage-account.component.html'
@@ -14,12 +16,11 @@ export class ManageAccountComponent implements OnInit {
   userForm: FormGroup;
   loading = false;
   submitted = false;
-  errorMessage: string;
   removeWhiteSpace: RegExp;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    private userService: UserService) {
+    private route: ActivatedRoute, private alertService: AlertService,
+    private userService: UserService, public dialog: MatDialog) {
 
     this.currentUser = this.authenticationService.currentUserValue;
 
@@ -55,6 +56,8 @@ export class ManageAccountComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    this.alertService.clear();
+
     // stop here if form is invalid
     if (this.userForm.invalid) {
       return;
@@ -72,23 +75,32 @@ export class ManageAccountComponent implements OnInit {
   }
 
   private updateUser() {
-    if (confirm(`Are you sure you want to make some changes on your profile?`)) {
-      this.userService.updateUser(this.currentUser.id, this.userForm.value)
-        .pipe(first())
-        .subscribe({
-          next: () => {
-            alert('User updated successful');
-            this.router.navigate(['/manageUser'], { relativeTo: this.route });
-            this.loading = false;
-          },
-          error: error => {
-            alert(error);
-            this.loading = false;
-          }
-        });
-    }
-    this.loading = false;
-  }
-  
+    const confirmDialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirm Update User',
+        message: 'Are you sure you want to make some changes on your profile?'
+      }
+    });
+    confirmDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.updateUser(this.currentUser.id, this.userForm.value)
+          .pipe(first())
+          .subscribe({
+            next: () => {
+              this.alertService.success('User updated successful', { keepAfterRouteChange: true });
+              this.router.navigate(['/manageUser'], { relativeTo: this.route });
+              this.loading = false;
+            },
+            error: error => {
+              this.alertService.error(error);
+              this.loading = false;
+            }
+          });
+      }
+      else {
+        this.loading = false;
+      }
+    });
 
+  }
 }

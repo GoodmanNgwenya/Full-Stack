@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  {{data.message}}
+</div>
+<div class="row">    
+    <div class="col-md-12">    
+        <p class="confirm-button">    
+            <a class="mr-2" >    
+                <button class="btn btn-yes" [mat-dialog-close]="true">Yes</button>    
+            </a>    
+            <a>    
+                <button class="btn btn-no" [mat-dialog-close]="false">No</button>    
+            </a>    
+        </p>    
+    </div>    
+</div>

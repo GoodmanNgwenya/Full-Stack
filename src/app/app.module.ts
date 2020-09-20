@@ -17,14 +17,21 @@ import { RegisterComponent } from './register/register.component';
 import { HomesForSaleComponent } from './pages/homes-for-sale/homes-for-sale.component';
 import { AdvertDetailsComponent } from './pages/advert-details/advert-details.component';
 import { JwPaginationModule } from 'jw-angular-pagination';
+import { AlertComponent } from './_components';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        JwPaginationModule],
+        JwPaginationModule
+    ],
     declarations: [
         AppComponent,
         HomeComponent,
@@ -32,12 +39,16 @@ import { JwPaginationModule } from 'jw-angular-pagination';
         AdvertComponent,
         RegisterComponent,
         HomesForSaleComponent,
-        AdvertDetailsComponent
-    ],
+        AdvertDetailsComponent,
+        AlertComponent,
+        ConfirmationDialogComponent],
+        entryComponents: [
+          ConfirmationDialogComponent
+        ],
+        
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
         // provider used to create fake backend
         //fakeBackendProvider
     ],

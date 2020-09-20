@@ -40,7 +40,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             .pipe(dematerialize());
 
         function handleRoute() {
-            var req = { url: "/address/cities" };
             switch (true) {
                 //users
                 case url.endsWith('/users/authenticate') && method === 'POST':
@@ -60,7 +59,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 // case url.endsWith('/address/city') && method === 'POST':
                 //     return getCities();
                 
-                case req.url.match(/\/address\/\d+$/) && method === 'GET':
+                case url.match(/\/address\/\d+$cities/) && method === 'GET':
                     return getCities();
                     
 

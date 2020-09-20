@@ -3,6 +3,7 @@ using Fullstack.Data.Entities;
 using Fullstack.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,6 +60,18 @@ namespace WebApi.Services
     public void Delete(int id)
     {
       _repo.DeleteAdvert(id);
+    }
+    public virtual bool IsValid(object value)
+    {
+      return !string.IsNullOrWhiteSpace(value.ToString());
+    }
+
+    //return overriden ValidationResult
+    public virtual ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+      if (IsValid(value)) return ValidationResult.Success;
+      var message = "Ops";
+      return new ValidationResult(message);
     }
     private AdvertModel MapAdvert(Advert advert)
     {

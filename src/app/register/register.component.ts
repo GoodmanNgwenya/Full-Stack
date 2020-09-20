@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms'
 
-import { UserService } from '@app/_services';
+import { AlertService, UserService } from '@app/_services';
 import { Router } from '@angular/router';
 import { MustMatch } from '@app/shared/validate-password';
 
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   removeWhiteSpace: RegExp;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
-    private userService: UserService) {
+    private userService: UserService,private alertService:AlertService) {
 
   }
 
@@ -38,11 +38,11 @@ export class RegisterComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
-  /** 
-   * Register user 
-   */
+ //Register User
   save(): void {
     this.submitted = true;
+    this.alertService.clear();
+
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
@@ -52,14 +52,13 @@ export class RegisterComponent implements OnInit {
     this.userService.register(this.registerForm.value)
       .subscribe(
         data => {
-          alert('Registration successful');
+          this.alertService.success('Registration successful', { keepAfterRouteChange: true });
           this.router.navigate(['/login']);
         },
         error => {
-          console.log(error);
-          alert(error);
+          this.alertService.error(error);
           this.loading = false;
-        });
+      });
   }
 
 

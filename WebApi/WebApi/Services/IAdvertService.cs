@@ -15,5 +15,6 @@ namespace WebApi.Services
     void Delete(int id);
     List<ProvinceModel> GetAllProvince();
     List<CityModel> GetCities(int id);
+    bool IsValid(object value);
   }
 }

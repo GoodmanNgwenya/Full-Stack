@@ -53,7 +53,7 @@ namespace WebApi.Controllers
       {
         // create user
         _userService.CreateUser(user, model.Password);
-        return Ok();
+        return Ok(model);
       }
       catch (Exception ex)
       {
@@ -71,7 +71,7 @@ namespace WebApi.Controllers
       try
       {
         _userService.Update(user,model.OldPassword,model.Password);
-        return Ok();
+        return Ok(model);
       }
       catch (AppException ex)
       {
