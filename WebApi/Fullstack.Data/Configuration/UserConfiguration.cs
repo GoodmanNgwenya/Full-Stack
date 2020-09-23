@@ -12,11 +12,12 @@ namespace Fullstack.Data.Configuration
     public void Configure(EntityTypeBuilder<User> builder)
     {
       builder.ToTable("Users");
-
+      builder.Property(u => u.Id)
+        .HasDefaultValue(true);
       builder.HasData(
        new User
        {
-         Id=1,
+         Id=100,
          FirstName="Test",
          LastName="Testing",
          Username="test@gmail.com",

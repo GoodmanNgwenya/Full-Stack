@@ -24,29 +24,30 @@ namespace Fullstack.Data.Configuration
           Price=10500000,
           AdvertStatus="live",
           UserId=1
-        },
-        new Advert
-        {
-          Id = 2,
-          AdvertHeadlineText = "Halfway House Estate: Property and Houses for sale",
-          AdvertDetails = "6 bedrooms, 3 garages and two bathrooms",
-          Province = "Gauteng",
-          City = "Pretoria",
-          Price = 50500000,
-          AdvertStatus = "live",
-          UserId = 1,
-        },
-        new Advert
-        {
-          Id = 3,
-          AdvertHeadlineText = "Golf Estate: Property and Houses for sale",
-          AdvertDetails = "6 bedrooms, 4 garages and two bathrooms",
-          Province = "Western Cape",
-          City = "Cape Town",
-          Price = 60500000,
-          AdvertStatus = "live",
-          UserId = 1
-        });
+        }
+        //new Advert
+        //{
+        //  Id = 2,
+        //  AdvertHeadlineText = "Halfway House Estate: Property and Houses for sale",
+        //  AdvertDetails = "6 bedrooms, 3 garages and two bathrooms",
+        //  Province = "Gauteng",
+        //  City = "Pretoria",
+        //  Price = 50500000,
+        //  AdvertStatus = "live",
+        //  UserId = 2,
+        //},
+        //new Advert
+        //{
+        //  Id = 3,
+        //  AdvertHeadlineText = "Golf Estate: Property and Houses for sale",
+        //  AdvertDetails = "6 bedrooms, 4 garages and two bathrooms",
+        //  Province = "Western Cape",
+        //  City = "Cape Town",
+        //  Price = 60500000,
+        //  AdvertStatus = "live",
+        //  UserId = 2
+        //}
+        );
 
     }
   }

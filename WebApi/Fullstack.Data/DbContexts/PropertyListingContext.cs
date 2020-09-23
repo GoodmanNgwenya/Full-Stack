@@ -17,10 +17,12 @@ namespace Fullstack.Data.DbContexts
     public DbSet<Seller> Sellers { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      
       modelBuilder.ApplyConfiguration(new ProvinceConfiguration());
       modelBuilder.ApplyConfiguration(new CityConfiguration());
-      //modelBuilder.ApplyConfiguration(new AdvertConfiguration());
       //modelBuilder.ApplyConfiguration(new UserConfiguration());
+      //modelBuilder.ApplyConfiguration(new AdvertConfiguration());
+
     }
   }
 }
