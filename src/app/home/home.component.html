@@ -3,95 +3,99 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="filter-form">
-                <div class="input-group col-md-4">
-                    <input class="form-control py-2 " type="search" placeholder="Search..." [(ngModel)]="listAdvert" >
+                <div class="input-group col-md-5">
+                    <input class="form-control py-2 " type="search" placeholder="Search..." [(ngModel)]="listAdvert">
                     <span class="input-group-append">
-                      <button class="btn btn-outline-primary  border-left-0 border" type="button">
+                        <button class="btn btn-outline-primary  border-left-0 border" type="button">
                             <i class="fa fa-search"></i>
-                      </button>
+                        </button>
                     </span>
-                </div>
-            <div class="filter-form">
-                <div class="location">
-                    <p>Location</p>
-                    <select class="filter-location" >
-                        <option value="">Gauteng</option>
-                        <option value="">Mpumalanga</option>
-                        <option value="">Limpopo</option>
-                        <option value="">KwaZulu Natal</option>
-                        <option value="">Free State</option>
-                        <option value="">Western Cape</option>
-                        <option value="">Northern Cape</option>
-                        <option value="">Eastern Cape</option>
-                        <option value="">North West</option>
+               
+                <br />
+                <div class="input-group col-md-4">
+                    <select id="sort-by" (change)="sort($event)">
+                        <option value="" selected disabled hidden>Sort By</option>
+                        <option value="Low">Low to High Price</option>
+                        <option value="High">High to Low Price</option>
                     </select>
-                </div>
-                <div class="search-type">
-                    <p>Property Type</p>
-                    <select class="filter-property">
-                        <option value="">House</option>
-                        <option value="">Resort</option>
-                        <option value="">Hotel</option>
-                    </select>
-                </div>
-                <div class="search-type">
-                    <p>Price</p>
-                    <select class="filter-property">
-                        <option value="">50K</option>
-                        <option value="">100K</option>
-                        <option value="">150K</option>
-                        <option value="">200K</option>
-                        <option value="">250K</option>
-                        <option value="">300K</option>
-                    </select>
-                </div>
-                <div class="bedrooms">
-                    <p>Bedrooms</p>
-                    <div class="room-filter-pagi">
-                        <div class="bf-item">
-                            <input type="radio" name="room" id="room-1">
-                            <label for="room-1">1</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="room" id="room-2">
-                            <label for="room-2">2</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="room" id="room-3">
-                            <label for="room-3">3</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="room" id="room-4">
-                            <label for="room-4">4+</label>
+                </div> </div>
+                <button class="btn btn-primary mr-3" type="button" style="float: right;margin-right: 0%;"
+                    (click)="onReset()">Reset Search</button>
+                <div class="filter-form">
+                    <div class="location">
+                        <p>Province</p>
+                        <select class="filter-location" [(ngModel)]="selectedProvince"
+                            (change)="valueSelected($event.target.value)">
+                            <option></option>
+                            <option value="" selected disabled hidden>Sort By</option>
+                            <option *ngFor="let prov of _allProvince">{{ prov.province}}</option>
+                        </select>
+                    </div>
+                    <div class="search-type">
+                        <p>City</p>
+                        <select class="filter-location" [(ngModel)]="selectedCity" (change)="citySelected()">
+                            <option></option>
+                            <option *ngFor="let City of _allCity"> {{City.city}}</option>
+                        </select>
+                    </div>
+                    <div class="search-type">
+                        <p>Price</p>
+                        <select class="filter-property">
+                            <option value="">50K</option>
+                            <option value="">100K</option>
+                            <option value="">150K</option>
+                            <option value="">200K</option>
+                            <option value="">250K</option>
+                            <option value="">300K</option>
+                        </select>
+                    </div>
+                    <div class="bedrooms">
+                        <p>Bedrooms</p>
+                        <div class="room-filter-pagi">
+                            <div class="bf-item">
+                                <input type="radio" name="room" id="room-1">
+                                <label for="room-1">1</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="room" id="room-2">
+                                <label for="room-2">2</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="room" id="room-3">
+                                <label for="room-3">3</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="room" id="room-4">
+                                <label for="room-4">4+</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="bathrooms">
-                    <p>Bathrooms</p>
-                    <div class="room-filter-pagi">
-                        <div class="bf-item">
-                            <input type="radio" name="bathroom" id="bathroom-1">
-                            <label for="bathroom-1">1</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="bathroom" id="bathroom-2">
-                            <label for="bathroom-2">2</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="bathroom" id="bathroom-3">
-                            <label for="bathroom-3">3</label>
-                        </div>
-                        <div class="bf-item">
-                            <input type="radio" name="bathroom" id="bathroom-4">
-                            <label for="bathroom-4">4+</label>
+                    <div class="bathrooms">
+                        <p>Bathrooms</p>
+                        <div class="room-filter-pagi">
+                            <div class="bf-item">
+                                <input type="radio" name="bathroom" id="bathroom-1">
+                                <label for="bathroom-1">1</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="bathroom" id="bathroom-2">
+                                <label for="bathroom-2">2</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="bathroom" id="bathroom-3">
+                                <label for="bathroom-3">3</label>
+                            </div>
+                            <div class="bf-item">
+                                <input type="radio" name="bathroom" id="bathroom-4">
+                                <label for="bathroom-4">4+</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="search-btn">
+                    <!-- <div class="search-btn">
                     <button type="submit"><i class="flaticon-search"></i>Search</button>
                 </div> -->
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
@@ -110,7 +114,9 @@
                     <div class="room-text">
                         <div class="room-details">
                             <div class="room-title">
-                                <h5 class="text-center"><a [routerLink] = "['/viewAdvert', advert.id, 'view']">{{advert.advertHeadlineText}}</a></h5>
+                                <h5 class="text-center"><a
+                                        [routerLink]="['/viewAdvert', advert.id, 'view']">{{advert.advertHeadlineText}}</a>
+                                </h5>
                                 <a href="#"><i class="flaticon-placeholder"></i>
                                     <span>Province: {{advert.province}}</span></a>
 

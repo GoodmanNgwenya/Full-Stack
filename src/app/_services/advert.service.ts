@@ -26,6 +26,21 @@ export class AdvertService {
       )
   }
 
+   /* GET advert whose name contains search term */
+   searchAdvert(province: string): Observable<Advert[]> {
+    if (!province.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.http.get<Advert[]>(`${environment.apiUrl}/adverts/search?province=${province}`)
+      .pipe(
+        map((data: Advert[]) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      )
+  }
 
   //get advert by Id 
   getAdvertById(id: number): Observable<Advert> {

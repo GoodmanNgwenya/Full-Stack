@@ -37,6 +37,12 @@ namespace WebApi.Services
       return advertList.Select(u => MapAdvert(u)).Where(s => s.UserId == userId && (s.AdvertStatus == "live" || s.AdvertStatus == "hiden")).ToList();
     }
 
+    public List<AdvertModel> GetAdvertByProvince(string province)
+    {
+      var advertList = _repo.GetAdverts();
+      return advertList.Select(u => MapAdvert(u)).Where(s => s.Province == province && (s.AdvertStatus == "live" || s.AdvertStatus == "hiden")).OrderByDescending(p=>p.Price).ToList();
+    }
+
     public AdvertModel PostAdvert(AdvertModel model)
     {
       var advert = MapCreateAdvert(model);

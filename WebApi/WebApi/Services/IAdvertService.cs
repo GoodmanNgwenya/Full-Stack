@@ -10,6 +10,7 @@ namespace WebApi.Services
     List<AdvertModel> GetAllAdvert();
     AdvertModel GetAdvertById(int id);
     List<AdvertModel> GetAdvertsByUserId(int userId);
+    List<AdvertModel> GetAdvertByProvince(string province);
     AdvertModel PostAdvert(AdvertModel advert);
     AdvertModel UpdateAdvert(AdvertModel advert);
     void Delete(int id);

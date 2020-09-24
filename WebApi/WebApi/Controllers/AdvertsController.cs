@@ -46,6 +46,13 @@ namespace WebApi.Controllers
       return Ok(response);
     }
 
+    [HttpGet("Search")]
+    public IActionResult Search(string province)
+    {
+      var adverts = _advertService.GetAdvertByProvince(province);
+      return Ok(adverts);
+    }
+
     [Authorize]
     [HttpPost]
     public IActionResult Post([FromBody] AdvertModel model)
