@@ -36,7 +36,7 @@ namespace WebApi.Controllers
     {
       var user = HttpContext.Items["User"] as UserModel;
       if (user.Id != userId)
-        return Forbid();
+        return Unauthorized();
 
       var response = _advertService.GetAdvertsByUserId(userId);
 
@@ -57,10 +57,14 @@ namespace WebApi.Controllers
     [HttpPost]
     public IActionResult Post([FromBody] AdvertModel model)
     {
-    
+
       try
       {
-        if(_advertService.IsValid(model))
+        var user = HttpContext.Items["User"] as UserModel;
+        if (user.Id != model.UserId)
+          return Unauthorized();
+
+        if (_advertService.IsValid(model))
         {
           _advertService.PostAdvert(model);
           return Ok(model);
@@ -82,10 +86,14 @@ namespace WebApi.Controllers
     [HttpPut("{id}")]
     public IActionResult Put(int id, [FromBody] AdvertModel model)
     {
-      model.Id = id;
 
       try
       {
+        var user = HttpContext.Items["User"] as UserModel;
+        if (user.Id != model.UserId)
+          return Unauthorized();
+
+        model.Id = id;
         if (_advertService.IsValid(model))
         {
           _advertService.UpdateAdvert(model);
@@ -104,6 +112,7 @@ namespace WebApi.Controllers
       }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {

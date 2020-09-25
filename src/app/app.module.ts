@@ -22,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';;
+import { ContactSellerComponent } from './pages/contact-seller/contact-seller.component'
 
 @NgModule({
     imports: [
@@ -46,7 +47,10 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
         HomesForSaleComponent,
         AdvertDetailsComponent,
         AlertComponent,
-        ConfirmationDialogComponent],
+        ConfirmationDialogComponent,
+        ContactSellerComponent
+    ],
+        
         entryComponents: [
           ConfirmationDialogComponent
         ],

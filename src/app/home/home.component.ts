@@ -137,6 +137,125 @@ export class HomeComponent {
 
   }
 
+  //filter by price
+  searchByPrice(event: any) {
+    switch (event.target.value) {
+      case "10K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 10000 && advert.price < 50000);
+              }
+            });
+          break;
+        }
+
+      case "50K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 50000 && advert.price < 100000);
+              }
+            });
+          break;
+        }
+      case "100K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 100000 && advert.price < 150000);
+              }
+            });
+          break;
+        }
+      case "150K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 150000 && advert.price < 200000);
+              }
+            });
+          break;
+        }
+      case "200K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 200000 && advert.price < 250000);
+              }
+            });
+          break;
+        }
+      case "250K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 250000 && advert.price < 300000);
+              }
+            });
+          break;
+        }
+      case "300K":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 300000 && advert.price < 1000000);
+              }
+            });
+          break;
+        }
+      case "1M":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 1000000 && advert.price < 50000000);
+              }
+            });
+          break;
+        }
+      case "50M":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 50000000 && advert.price < 150000);
+              }
+            });
+          break;
+        }
+      case "100M":
+        {
+          this.advertService.getAllAdvert()
+            .subscribe({
+              next: adverts => {
+                this.adverts = adverts.filter(advert => advert.price >= 50000000 && advert.price < 100000000);
+              }
+            });
+          break;
+        }
+      default: {
+        this.advertService.getAllAdvert()
+          .subscribe({
+            next: adverts => {
+              this.adverts = adverts.filter(advert => advert.price >= 10000 && advert.price < 50000);
+            }
+          });
+        break;
+      }
+
+    }
+    return this.adverts;
+
+  }
+
   //paging
   pageChanged(event) {
     this.config.currentPage = event;

@@ -8,5 +8,6 @@ namespace WebApi.Services
     List<SellerModel> GetAllSellers();
     SellerModel GetSellerByUserId(int userId);
     SellerModel UpdateSeller(SellerModel seller);
+    SellerModel GetSellerPerAdvert(int advertId);
   }
 }

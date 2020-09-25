@@ -1,0 +1,22 @@
+<form [formGroup]="contactSellerForm">
+    <div class="form-group">
+        <input class="form-control" data-val="true" formControlName="firstName" placeholder="Your Name" type="text"
+            value="">
+    </div>
+    <div class="form-group">
+        <input class="form-control" data-val="true" formControlName="email" placeholder="Your Email" type="text"
+            value="">
+    </div>
+    <div class="form-group">
+        <input class="form-control" data-val="true" formControlName="phoneNumber" placeholder="Your Mobile Number"
+            type="text" value="">
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" formControlName="message" cols="20" data-val="true" placeholder="Message Body"
+            rows="4"></textarea>
+    </div>
+    <div class="clearfix"></div>
+    <button type="submit" class="btn btn-block btn-success">
+        Send Message
+    </button>
+</form>

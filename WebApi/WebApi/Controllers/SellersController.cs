@@ -5,6 +5,7 @@ using WebApi.Services;
 
 namespace WebApi.Controllers
 {
+
   [ApiController]
   [Route("[controller]")]
   public class SellersController:ControllerBase
@@ -27,6 +28,13 @@ namespace WebApi.Controllers
     public IActionResult GetSellerByUserId(int id)
     {
       var seller = _sellerService.GetSellerByUserId(id);
+      return Ok(seller);
+    }
+
+    [HttpGet("{advertId}/seller")]
+    public IActionResult GetSellerPerAdvert(int advertId)
+    {
+      var seller = _sellerService.GetSellerPerAdvert(advertId);
       return Ok(seller);
     }
 

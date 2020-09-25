@@ -34,7 +34,19 @@ export class SellerService {
             return throwError(error);
         })
     )
-}
+   }
+  
+  //get seller per advert
+  sellerPerAdvert(advertId: number): Observable<Seller> {
+    return this.http.get<Seller>(`${environment.apiUrl}/sellers/${advertId}/seller`)
+      .pipe(
+        map((data: Seller) => {
+          return data;
+        }), catchError(error => {
+          return throwError(error);
+        })
+      )
+  }
 
   //update seller details
   updateSeller(id: number, seller: Seller): Observable<Seller> {

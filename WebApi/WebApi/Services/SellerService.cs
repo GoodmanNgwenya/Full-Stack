@@ -35,6 +35,17 @@ namespace WebApi.Services
         return MapGetSeller(sellerEntity);
       }
     }
+
+    public SellerModel GetSellerPerAdvert(int advertId)
+    {
+      var advertEntity= _repo.GetAdverts().FirstOrDefault(u => u.Id == advertId);
+      var sellerEntity = _repo.GetSeller(advertEntity.UserId);
+      if (sellerEntity != null)
+      {
+        return MapGetSeller(sellerEntity);
+      }
+      return null;
+    }
     public SellerModel UpdateSeller(SellerModel model)
     {
       var seller = MapSeller(model);

@@ -10,15 +10,16 @@
                             <i class="fa fa-search"></i>
                         </button>
                     </span>
-               
-                <br />
-                <div class="input-group col-md-4">
-                    <select id="sort-by" (change)="sort($event)">
-                        <option value="" selected disabled hidden>Sort By</option>
-                        <option value="Low">Low to High Price</option>
-                        <option value="High">High to Low Price</option>
-                    </select>
-                </div> </div>
+
+                    <br />
+                    <div class="input-group col-md-4">
+                        <select id="sort-by" (change)="sort($event)">
+                            <option value="" selected disabled hidden>Sort By</option>
+                            <option value="Low">Low to High Price</option>
+                            <option value="High">High to Low Price</option>
+                        </select>
+                    </div>
+                </div>
                 <button class="btn btn-primary mr-3" type="button" style="float: right;margin-right: 0%;"
                     (click)="onReset()">Reset Search</button>
                 <div class="filter-form">
@@ -26,27 +27,31 @@
                         <p>Province</p>
                         <select class="filter-location" [(ngModel)]="selectedProvince"
                             (change)="valueSelected($event.target.value)">
-                            <option></option>
-                            <option value="" selected disabled hidden>Sort By</option>
+                            <option value="" selected hidden>Search By Province</option>
                             <option *ngFor="let prov of _allProvince">{{ prov.province}}</option>
                         </select>
                     </div>
                     <div class="search-type">
                         <p>City</p>
                         <select class="filter-location" [(ngModel)]="selectedCity" (change)="citySelected()">
-                            <option></option>
+                            <option value="" selected hidden>Search By City</option>
                             <option *ngFor="let City of _allCity"> {{City.city}}</option>
                         </select>
                     </div>
                     <div class="search-type">
                         <p>Price</p>
-                        <select class="filter-property">
-                            <option value="">50K</option>
-                            <option value="">100K</option>
-                            <option value="">150K</option>
-                            <option value="">200K</option>
-                            <option value="">250K</option>
-                            <option value="">300K</option>
+                        <select class="filter-property" (change)="searchByPrice($event)">
+                            <option value="" selected disabled hidden>Search By Price</option>
+                            <option value="10K">10K</option>
+                            <option value="50K">50K</option>
+                            <option value="100K">100K</option>
+                            <option value="150K">150K</option>
+                            <option value="200K">200K</option>
+                            <option value="250K">250K</option>
+                            <option value="300K">300K</option>
+                            <option value="1M">1M</option>
+                            <option value="50M">50M</option>
+                            <option value="100M">100M</option>
                         </select>
                     </div>
                     <div class="bedrooms">
